@@ -10,15 +10,21 @@
             background-color: #121212;
             color: #ffffff;
             font-family: Arial, sans-serif;
-            display: flex;
+            display: block;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
         }
-        .container {
-            text-align: center;
-        }
+       .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 70vh; /* This pushes the footer down */
+    padding: 40px 20px;
+}
     </style>
 </head>
 <body>
