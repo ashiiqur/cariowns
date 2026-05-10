@@ -850,6 +850,12 @@ audio {
     border-radius: 24px;
     padding: 30px 20px;
     position: relative;
+    max-height: 85vh; /* Stops it from being taller than the screen */
+    overflow-y: auto; /* Creates a scrollbar just for the popup */
+}
+/* --- FREEZE BACKGROUND SCROLLING --- */
+.body-no-scroll {
+    overflow: hidden;
 }
 
 /* Close X button */
