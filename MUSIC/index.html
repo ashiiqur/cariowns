@@ -94,34 +94,28 @@
             menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
         }
 
-        // 2. Smooth 10s Random Preview Logic with Auto-Pause
+        // 2. Guaranteed Random Preview with Auto-Pause
         document.querySelectorAll('audio').forEach(audio => {
             let fadeInterval;
             let previewTimeout;
 
             audio.addEventListener('play', function() {
-                // --- NEW: AUTO-PAUSE OTHER SONGS ---
+                // --- AUTO-PAUSE OTHER SONGS ---
                 document.querySelectorAll('audio').forEach(otherAudio => {
-                    // If the other audio isn't THIS audio, and it's currently playing, pause it!
                     if (otherAudio !== audio && !otherAudio.paused) {
                         otherAudio.pause();
                     }
                 });
 
-                // If it's already doing a preview, let it keep going
-                if (audio.dataset.isPreviewing === 'true') return;
-
-                // Instantly mute the track so the user doesn't hear the very beginning
+                // Instantly mute and wipe out any old timers
                 audio.volume = 0;
-                audio.dataset.isPreviewing = 'true';
+                clearInterval(fadeInterval);
+                clearTimeout(previewTimeout);
 
                 const startPreview = () => {
-                    // Pick a random time (leaving at least 12 seconds at the end)
+                    // Force a BRAND NEW random time calculation every click
                     const maxStart = audio.duration > 12 ? audio.duration - 12 : 0;
                     audio.currentTime = Math.random() * maxStart;
-
-                    clearInterval(fadeInterval);
-                    clearTimeout(previewTimeout);
 
                     // Fade In smoothly
                     fadeInterval = setInterval(() => {
@@ -142,28 +136,24 @@
                             } else {
                                 audio.volume = 0;
                                 clearInterval(fadeInterval);
-                                audio.pause(); // Turn it off after fade completes
-                                audio.dataset.isPreviewing = 'false'; // Reset for the next click
+                                audio.pause(); // Turn it off completely
                             }
                         }, 50);
                     }, 9000);
                 };
 
-                // Wait for the song data to load before jumping
-                if (audio.readyState >= 1) {
+                // Check if duration is loaded; if yes, jump immediately. If no, wait for it.
+                if (audio.duration && !isNaN(audio.duration)) {
                     startPreview();
                 } else {
                     audio.addEventListener('loadedmetadata', startPreview, { once: true });
                 }
             });
 
-            // If the user manually clicks Pause in the middle of a preview, reset everything
+            // If the user clicks Pause or if the auto-fade pauses it, clean up the timers
             audio.addEventListener('pause', () => {
-                if (audio.volume > 0) { 
-                    clearInterval(fadeInterval);
-                    clearTimeout(previewTimeout);
-                    audio.dataset.isPreviewing = 'false';
-                }
+                clearInterval(fadeInterval);
+                clearTimeout(previewTimeout);
             });
         });
     </script>
