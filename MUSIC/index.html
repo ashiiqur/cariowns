@@ -95,10 +95,8 @@
             menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
         }
 
-        // 2. Flawless 60-FPS Time-Based Fades
+        // 2. Flawless Fades with Smooth Manual Pause
         document.querySelectorAll('audio').forEach(audio => {
-            
-            // Inject custom loading spinner wrapper
             const wrapper = document.createElement('div');
             wrapper.className = 'audio-wrapper';
             const spinner = document.createElement('div');
@@ -108,71 +106,57 @@
             wrapper.appendChild(spinner);
             wrapper.appendChild(audio);
 
-            let fadeAnimation; // Replaces fadeInterval
+            let fadeAnimation;
             let previewTimeout;
+            let isManualPausing = false; // Prevents loops
 
-            // Loading Trackers
             audio.addEventListener('waiting', () => wrapper.classList.add('is-loading'));
             audio.addEventListener('playing', () => wrapper.classList.remove('is-loading'));
-            audio.addEventListener('pause', () => wrapper.classList.remove('is-loading'));
+
+            // --- THE MASTER FADE FUNCTION ---
+            const animateVolume = (startVol, endVol, duration, callback) => {
+                const startTime = performance.now();
+                const fade = (currentTime) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    audio.volume = startVol + (endVol - startVol) * progress;
+
+                    if (progress < 1) {
+                        fadeAnimation = requestAnimationFrame(fade);
+                    } else if (callback) {
+                        callback();
+                    }
+                };
+                fadeAnimation = requestAnimationFrame(fade);
+            };
 
             audio.addEventListener('play', function() {
+                if (isManualPausing) return;
+
                 // Auto-pause other songs
-                document.querySelectorAll('audio').forEach(otherAudio => {
-                    if (otherAudio !== audio && !otherAudio.paused) {
-                        otherAudio.pause();
-                    }
+                document.querySelectorAll('audio').forEach(other => {
+                    if (other !== audio && !other.paused) other.pause();
                 });
 
                 audio.volume = 0;
-                cancelAnimationFrame(fadeAnimation); // Kill any old animations
+                cancelAnimationFrame(fadeAnimation);
                 clearTimeout(previewTimeout);
-                
                 wrapper.classList.add('is-loading');
 
                 const startPreview = () => {
                     const maxStart = audio.duration > 12 ? audio.duration - 12 : 0;
                     audio.currentTime = Math.random() * maxStart;
 
-                    // --- FLAWLESS FADE IN ---
-                    const fadeDuration = 1000; // 1000ms = 1 second fade
-                    const startTime = performance.now(); // High-res computer clock
-                    
-                    const fadeIn = (currentTime) => {
-                        let elapsed = currentTime - startTime;
-                        let progress = Math.min(elapsed / fadeDuration, 1);
-                        
-                        audio.volume = progress; // Perfectly maps time to volume
-                        
-                        if (progress < 1) {
-                            fadeAnimation = requestAnimationFrame(fadeIn); // Run next frame
-                        }
-                    };
-                    fadeAnimation = requestAnimationFrame(fadeIn); // Start animation
+                    // Smooth Fade In (1 second)
+                    animateVolume(0, 1, 1000);
 
-                    // Start Fade Out at 9 seconds
+                    // Schedule Auto Fade Out
                     previewTimeout = setTimeout(() => {
-                        cancelAnimationFrame(fadeAnimation); // Stop any weird overlap
-                        
-                        // --- FLAWLESS FADE OUT ---
-                        const fadeOutStart = performance.now();
-                        const initialVol = audio.volume; // Start from current volume
-                        
-                        const fadeOut = (currentTime) => {
-                            let elapsed = currentTime - fadeOutStart;
-                            let progress = Math.min(elapsed / fadeDuration, 1);
-                            
-                            audio.volume = initialVol * (1 - progress); // Perfectly fade to 0
-                            
-                            if (progress < 1) {
-                                fadeAnimation = requestAnimationFrame(fadeOut);
-                            } else {
-                                audio.volume = 0; // Lock to absolute zero
-                                audio.pause();
-                            }
-                        };
-                        fadeAnimation = requestAnimationFrame(fadeOut);
-                        
+                        animateVolume(audio.volume, 0, 1000, () => {
+                            isManualPausing = true; 
+                            audio.pause();
+                            isManualPausing = false;
+                        });
                     }, 9000);
                 };
 
@@ -183,10 +167,26 @@
                 }
             });
 
-            audio.addEventListener('pause', () => {
-                cancelAnimationFrame(fadeAnimation);
-                clearTimeout(previewTimeout);
-            });
+            // --- SMOOTH MANUAL PAUSE ---
+            // We listen for the 'pause' event. If it wasn't triggered by our auto-fade,
+            // we quickly fade out before fully stopping.
+            audio.onpause = (e) => {
+                wrapper.classList.remove('is-loading');
+                if (!isManualPausing && audio.volume > 0.01) {
+                    e.preventDefault(); // Stop the instant pause
+                    audio.play(); // Keep playing for a micro-second while we fade
+                    
+                    isManualPausing = true;
+                    cancelAnimationFrame(fadeAnimation);
+                    clearTimeout(previewTimeout);
+
+                    // Quick 300ms fade out for manual clicks
+                    animateVolume(audio.volume, 0, 300, () => {
+                        audio.pause();
+                        isManualPausing = false;
+                    });
+                }
+            };
         });
     </script>
 </body>
