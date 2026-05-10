@@ -868,10 +868,11 @@ audio {
 }
 /* --- FREEZE BACKGROUND SCROLLING --- */
 /* --- FREEZE BACKGROUND SCROLLING (BULLETPROOF) --- */
+/* --- BETTER FREEZE BACKGROUND --- */
 .body-no-scroll {
-    overflow: hidden !important;
-    height: 100vh !important;
-    touch-action: none; /* Forces mobile to ignore background swipes */
+    position: fixed;
+    width: 100%;
+    overflow: hidden;
 }
 
 /* Close X button */
