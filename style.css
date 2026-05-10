@@ -1,0 +1,772 @@
+/* style.css */
+:root {
+    --bg-color: #0f0f0f;
+    --text-color: #f1f1f1;
+    --accent-color: #ff424d; /* A vibrant accent for links/buttons */
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden; /* Prevents horizontal scrolling issues */
+}
+
+/* Navigation Bar */
+header {
+    background-color: #000;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+    position: relative; /* Required so the mobile menu attaches properly */
+}
+
+.logo img {
+    height: 40px;
+}
+
+/* Desktop Navigation Container */
+.nav-links {
+    display: flex;
+    align-items: center; 
+}
+
+/* Desktop Navigation Links */
+.nav-links a {
+    display: flex; 
+    align-items: center;
+    gap: 8px;
+    color: var(--text-color);
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+    text-transform: uppercase; /* THIS MAKES ALL LETTERS CAPITAL */
+    letter-spacing: 1px;       /* This adds a tiny bit of space between the letters */
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+    font-weight: bold !important;
+}
+.nav-links a.active {
+    color: var(--accent-color) !important;
+    font-weight: 700 !important;
+}
+
+/* Main Content Area */
+main {
+    padding: 50px 5%;
+    min-height: 70vh;
+    text-align: center;
+}
+
+.hero-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+/* Footer */
+footer {
+    background-color: #000;
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #333;
+}
+
+footer a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+/* =========================================
+   MOBILE MENU STYLES 
+   ========================================= */
+
+/* Hide the hamburger button on desktop screens */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 28px;
+    cursor: pointer;
+}
+
+/* When the screen is smaller than 768px (Tablets and Phones) */
+@media (max-width: 768px) {
+    
+    /* Show the hamburger button */
+    .menu-toggle {
+        display: block;
+    }
+
+    /* Redesign the nav into a dropdown menu */
+    .nav-links {
+        display: none; 
+        flex-direction: column; 
+        align-items: center; /* <--- THIS IS THE MAGIC LINE FOR MOBILE CENTERING */
+        position: absolute; 
+        top: 100%; 
+        left: 0;
+        width: 100%;
+        background-color: #000;
+        border-bottom: 1px solid #333;
+        padding: 20px 0;
+        z-index: 100; 
+    }
+
+  /* Space out the links and FORCE them to the center on mobile */
+    .nav-links a {
+        display: flex !important;          /* Keeps icon and text side-by-side */
+        align-items: center !important;    /* Forces text to align middle with icon */
+        width: 100% !important;
+        justify-content: center !important;
+        margin: 15px 0 !important;
+        padding: 0 !important;
+        font-size: 18px;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+    }
+
+    /* This class is triggered by the JavaScript script */
+    .nav-links.active {
+        display: flex;
+    }
+}
+/* =========================================
+   MUSIC PAGE STYLES 
+   ========================================= */
+.music-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.music-card {
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.music-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.album-art {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+.music-card h3 {
+    margin: 0 0 5px 0;
+    color: var(--accent-color);
+}
+
+.music-card p {
+    margin: 0 0 15px 0;
+    font-size: 14px;
+    color: #aaa;
+}
+
+audio {
+    width: 100%;
+    outline: none;
+}
+/* Styling for the clickable track titles */
+.music-card h3 a {
+    color: inherit; /* Keeps the red color you already set for the h3 */
+    text-decoration: none; /* Removes the default blue underline */
+    transition: opacity 0.3s ease; /* Smooth transition for the hover effect */
+}
+
+/* Adds a nice effect when they hover over the title */
+.music-card h3 a:hover {
+    opacity: 0.7; /* Makes it slightly transparent to show it's clickable */
+    text-decoration: underline; /* Optional: adds a neat underline on hover */
+}
+/* Smooth transition for the image */
+.music-card a .album-art {
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Zooms in slightly and brightens when hovered */
+.music-card a:hover .album-art {
+    transform: scale(1.05); /* Makes the image 5% bigger */
+    filter: brightness(1.1); /* Makes it slightly brighter */
+}
+
+/* =========================================
+   VISUALS PAGE STYLES 
+   ========================================= */
+/* --- THE GALLERY GRID CONTAINER --- */
+.gallery-grid {
+    display: grid;
+    /* MAGIC MATH: This automatically creates columns that are at least 300px wide. 
+       If the screen is huge, it makes 3 or 4 columns. 
+       If it's a tiny phone, it forces them into 1 column! */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px; /* Space between the art pieces */
+    gap: 20px;
+    margin-top: 40 px;
+}
+
+/* --- THE GALLERY IMAGES --- */
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    aspect-ratio:1/1;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease; /* Optional: sets up a hover effect */
+}
+
+/* Optional: Make the art pop up slightly when you hover over it! */
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+/* The dark bar that slides up with the title */
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    transform: translateY(100%); /* Hides it below the image */
+    transition: transform 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* Slides the dark bar up when you hover */
+.gallery-item:hover .gallery-overlay {
+    transform: translateY(0);
+}
+/* Styling for text links inside paragraphs */
+.text-link {
+    color: var(--text-color); /* Keeps it white to match the paragraph */
+    text-decoration: underline; /* Adds the underline */
+}
+
+.text-link:hover {
+    font-weight: bold; /* Makes it bold on hover */
+    color: var(--accent-color); /* Optional: turns it red on hover for extra flair! Remove this line if you want it to stay white */
+}
+/* About Page Contact Section */
+.contact-section {
+    margin-top: 50px;
+    padding-top: 40px;
+    border-top: 1px solid #333; /* Adds a subtle dark grey line above the section */
+}
+
+.email-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border: 2px solid var(--accent-color);
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px; /* Slightly rounded corners */
+    transition: all 0.3s ease;
+}
+
+/* Fills the button with your red accent color when hovered */
+.email-btn:hover {
+    background-color: var(--accent-color);
+    color: #ffffff; /* Ensures the text stays white */
+}
+/* --- HOME PAGE BUTTONS --- */
+.home-buttons {
+    display: flex;
+    justify-content: center; /* Centers the buttons */
+    gap: 20px; /* Space between the two buttons */
+    margin-top: 30px; /* Space between the GIF and the buttons */
+}
+
+/* Base style for both buttons */
+.home-buttons .btn {
+    padding: 12px 35px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+/* Green Linktree Button */
+.linktree-btn {
+    background-color: #39E09B; /* A nice Linktree-style vibrant green */
+    color: #000000; /* Dark text reads best on the green */
+    border: 2px solid #39E09B;
+}
+
+.linktree-btn:hover {
+    background-color: transparent;
+    color: #39E09B; /* Turns text green when hovered */
+}
+
+/* About Button (Matches your red accent!) */
+.about-btn {
+    background-color: transparent;
+    color: var(--text-color);
+    border: 2px solid var(--accent-color);
+}
+
+.about-btn:hover {
+    background-color: var(--accent-color);
+    color: #ffffff; /* Fills with red when hovered */
+}
+/* --- GAMES CONTAINER & WRAPPER --- */
+.games-container {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid #333;
+}
+
+.games-main-title {
+    text-align: center;
+    color: var(--text-color);
+    margin-bottom: 40px; 
+}
+
+.all-games-wrapper {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    gap: 50px;
+}
+
+.game-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 300px; /* Keeps the games neat and compact */
+}
+
+/* --- FIGHTER GAME STYLES --- */
+.health-bars {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.hp-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    font-weight: bold;
+}
+
+.hp-bar-bg {
+    width: 100%;
+    height: 20px;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #333;
+    margin-top: 5px;
+}
+
+.hp-fill {
+    height: 100%;
+    width: 100%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.player-hp { background-color: var(--accent-color); }
+.boss-hp { background-color: #39E09B; }
+
+.fighter-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+}
+
+.action-btn {
+    padding: 10px 20px;
+    background-color: #1a1a1a;
+    border: 2px solid #555;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.action-btn:hover {
+    background-color: #333;
+}
+
+#btn-attack:hover { border-color: var(--accent-color); color: var(--accent-color); }
+#btn-heal:hover { border-color: #39E09B; color: #39E09B; }
+/* --- TIC-TAC-TOE STYLES --- */
+.tic-tac-toe-board {
+    display: grid;
+    grid-template-columns: repeat(3, 80px);
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.cell {
+    width: 80px;
+    height: 80px;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cell:hover {
+    background-color: #2a2a2a;
+}
+
+.cell.x { color: var(--accent-color); }
+.cell.o { color: #39E09B; }
+
+/* Styling for the Tic-Tac-Toe Reset Button */
+#reset-game {
+    background-color: transparent;
+    color: var(--text-color);
+    border: 2px solid #555;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+#reset-game:hover {
+    background-color: #555;
+    color: #ffffff;
+}
+/* --- BATTLE SCREEN FOR BOTH GAMES --- */
+.battle-screen {
+    width: 100%;
+    height: 90px; /* INCREASED vertical size! */
+    background-color: #0a0a0a; 
+    border: 2px solid #333; 
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px; /* Adjusted so dropdown fits nicely */
+    padding: 10px;
+    text-align: center;
+    box-sizing: border-box; /* Locks the height perfectly static */
+}
+
+#fighter-status {
+    margin: 0;
+    font-family: monospace; /* Gives it a cool retro gaming text vibe! */
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+/* Styling for the Boss Fight Play Again Button */
+#reset-fighter {
+    background-color: transparent;
+    color: var(--text-color);
+    border: 2px solid #555;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+#reset-fighter:hover {
+    background-color: #555;
+    color: #ffffff;
+}
+/* Makes the oldest Tic-Tac-Toe piece fade out so you know it's going to disappear */
+.cell.fading {
+    opacity: 0.3;
+    transform: scale(0.85); /* Shrinks it slightly */
+    transition: all 0.3s ease;
+}
+/* --- TURN SELECTOR DROPDOWN --- */
+.turn-dropdown {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    border: 2px solid #555;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: border-color 0.3s ease;
+}
+
+.turn-dropdown:hover, .turn-dropdown:focus {
+    border-color: var(--accent-color);
+    outline: none;
+}
+/* --- NEW BULLET ANIMATION SCREEN --- */
+.bullet-screen {
+    width: 100%;
+    /* ⬇️ THIS HEIGHT PUSHES THE HEALTH BARS DOWN! Adjust this number if it doesn't align perfectly ⬇️ */
+    height: 185px; 
+    background-color: #050505; /* Extra dark background for the "firing range" */
+    border: 2px solid #333;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden; /* Hides the bullets when they hit the edges */
+    box-sizing: border-box;
+}
+
+/* Base style for all bullets */
+.pixel-bullet {
+    position: absolute;
+    width: 20px;
+    height: 4px;
+    border-radius: 2px;
+    opacity: 0; /* Hidden until animated */
+}
+
+/* Player Bullet (Hidden by default, waiting to be fired) */
+.player-bullet {
+    background-color: #ff4c4c;
+    box-shadow: 0 0 8px #ff4c4c;
+    top: 40%;
+    /* Notice we removed the infinite animation here! */
+}
+
+/* Boss Bullet 1 (Hidden by default) */
+.boss-bullet {
+    background-color: #39E09B;
+    box-shadow: 0 0 8px #39E09B;
+    top: 20%;
+}
+
+/* Boss Bullet 2 (Hidden by default) */
+.boss-bullet-2 {
+    background-color: #39E09B;
+    box-shadow: 0 0 8px #39E09B;
+    top: 70%;
+}
+
+/* --- THE NEW TRIGGER CLASSES --- */
+/* JavaScript will add these classes ONLY when an attack happens */
+.player-bullet.firing {
+    animation: shootRight 0.4s linear; /* Much faster bullet! */
+}
+
+.boss-bullet.firing {
+    animation: shootLeft 0.4s linear;
+}
+
+.boss-bullet-2.firing {
+    animation: shootLeft 0.4s linear;
+    animation-delay: 0.1s; /* Slight delay so it looks like a double-shot */
+}
+
+/* Animation Keyframes: Left to Right */
+@keyframes shootRight {
+    0% { left: -20px; opacity: 1; }
+    90% { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+}
+
+/* Animation Keyframes: Right to Left */
+@keyframes shootLeft {
+    0% { right: -20px; opacity: 1; }
+    90% { opacity: 1; }
+    100% { right: 100%; opacity: 0; }
+}
+/* --- DIVIDER LINE --- */
+.section-divider {
+    border: 0;
+    height: 2px;
+    background-color: #333;
+    margin: 40px auto;
+    width: 80%; /* Keeps it centered nicely */
+}
+
+/* --- PIANO CONTAINER --- */
+.piano-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    background-color: #111;
+    padding: 30px;
+    margin-bottom: 50px;
+}
+
+/* --- PIANO KEYS --- */
+.piano {
+    display: inline-flex; /* Shrinks the box to perfectly hug the keys */
+    max-width: 100%; /* Stops the box from growing wider than the screen */
+    overflow-x: auto; /* Allows smooth left/right swiping on mobile! */
+    margin: 0 auto; /* Keeps it dead-center on desktop, even zoomed in */
+    padding-bottom: 15px; /* Room for the mobile scrollbar */
+}
+
+.key {
+    border: 1px solid #000;
+    border-radius: 0 0 5px 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 15px;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 1.2rem;
+    user-select: none; /* Prevents text highlighting when clicking fast */
+    transition: background-color 0.1s ease;
+}
+
+/* White Keys */
+.key.white {
+    min-width: 60px !important; /* MAGIC FIX: Absolutely forbids squishing */
+    width: 60px !important;
+    flex-shrink: 0 !important;
+    height: 200px;
+    background-color: #ffffff;
+    color: #555;
+    z-index: 1;
+}
+
+.key.white:active, .key.white.active {
+    background-color: #d4d4d4;
+}
+
+/* Black Keys */
+.key.black {
+    min-width: 40px !important; /* MAGIC FIX: Absolutely forbids squishing */
+    width: 40px !important;
+    flex-shrink: 0 !important;
+    height: 120px;
+    background-color: #1a1a1a;
+    color: #888;
+    z-index: 2;
+    margin-left: -20px !important; /* Locks them exactly between the white keys */
+    margin-right: -20px !important;
+    border: 1px solid #000;
+}
+
+.key.black:active, .key.black.active {
+    background-color: #333;
+}
+/* --- 1. PITCH CONTAINER (Forces 1 Line) --- */
+.pitch-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap; /* FORCES them to stay on one single horizontal line */
+    gap: 8px; /* Space between buttons */
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* --- 2. PITCH DISPLAY (Stops buttons from moving!) --- */
+#pitch-display {
+    display: inline-block;
+    width: 120px; 
+    text-align: center;
+    color: #fff;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: bold;
+    font-size: 0.9rem;
+    flex-shrink: 0; 
+}
+
+/* --- 3. PITCH BUTTONS --- */
+#pitch-down, #pitch-up {
+    background-color: #111;
+    color: #ffffff;
+    border: 2px solid #444;
+    border-radius: 0px;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 0.8rem; 
+    padding: 8px 12px;
+    cursor: pointer;
+    white-space: nowrap; 
+    transition: background-color 0.1s ease;
+}
+
+#pitch-down:hover, #pitch-up:hover {
+    background-color: #222;
+    border-color: #666;
+}
+
+#pitch-down:active, #pitch-up:active {
+    background-color: #000;
+    border-color: #333;
+}
+/* --- MOBILE RESPONSIVE PIANO FIX --- */
+@media (max-width: 500px) {
+    .piano-container {
+        padding: 20px 5px; /* Reduces the bulky padding on phone screens */
+    }
+    
+    .key.white {
+        width: 12.5%; /* 100% divided by 8 keys = perfect fit! */
+        font-size: 0.9rem; /* Slightly smaller text for keys */
+    }
+    
+    .key.black {
+        width: 8%; /* Shrink black keys proportionally */
+        margin-left: -4%; /* Adjust negative margin to keep them centered */
+        margin-right: -4%;
+    }
+}
+/* --- GALLERY DATE STYLING --- */
+.upload-date {
+    font-family: monospace;
+    font-size: 0.7rem;
+    color: #00a8ff; /* Using a blue tint to match your glitch theme */
+    margin-top: 8px;
+    text-shadow: 1px 1px 0px #ff0000; /* Subtle glitch shadow */
+    
+    /* Hidden state */
+    opacity: 0;
+    transform: translateY(5px);
+    transition: all 0.3s ease-in-out;
+}
+
+/* --- SHOW DATE ON HOVER --- */
+.gallery-item:hover .upload-date {
+    opacity: 1;
+    transform: translateY(0);
+}

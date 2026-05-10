@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>cariowns</title>
+    <meta name="title" content="cariowns" />
+<meta name="description" content="The official website of cariowns. Discover new music and digital projects." />
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://cariowns.xyz/" />
+<meta property="og:title" content="cariowns" />
+<meta property="og:description" content="The official website of cariowns. Discover new music and digital projects." />
+<meta property="og:image" content="https://ashiiqur.github.io/cariowns_alpha/previiew.jpg?v=4" />
+
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="https://cariowns.xyz/" />
+<meta property="twitter:title" content="cariowns" />
+<meta property="twitter:description" content="The official website of cariowns. Discover new music and digital projects." />
+<meta property="twitter:image" content="https://ashiiqur.github.io/cariowns_alpha/previiew.jpg?v=4" />
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <!-- Linking the global CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <!-- Logo and Text aligned perfectly -->
+            <a href="./" style="display: flex; align-items: center; text-decoration: none; gap: 15px;">
+                <img src="assets/logo.png" alt="cariowns logo">
+                <span style="font-size: 24px; font-weight: bold; letter-spacing: 1.5px; color: #ffffff;">cariowns</span>
+            </a>
+        </div>
+        
+        <!-- The Hamburger Button (Hidden on desktop) -->
+        <button class="menu-toggle" aria-label="Toggle menu">
+            &#9776;
+        </button>
+
+        <!-- Navigation Links -->
+        <nav class="nav-links">
+            <a href="./">
+                <!-- This SVG is the Home Icon -->
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                Home
+            </a>
+            <a href="MUSIC">Music</a>
+            <a href="VISUALS">Visuals</a>
+            <a href="ABOUT/">About</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Welcome to cariowns</h1>
+        <p>The central hub for digital creation, sound, and visual art.</p>
+        <img src="assets/ashiqur.gif" alt="cariowns animation" class="hero-image">
+        <!-- Home Page Buttons -->
+        <div class="home-buttons">
+            <a href="https://linktr.ee/cariowns" target="_blank" class="btn linktree-btn">Linktree</a>
+            <a href="ABOUT/" class="btn about-btn">About</a>
+        </div>
+        <!-- Games Section -->
+        <div class="games-container">
+            <!-- Centered Main Title -->
+            <h2 class="games-main-title">Bored? Play a Quick Game!</h2>
+            
+            <div class="all-games-wrapper">
+                
+                <!-- Game 1: Tic-Tac-Toe -->
+                <div class="game-box">
+    <h3 style="color: var(--accent-color); margin-bottom: 10px;">Tic-Tac-Toe</h3>
+    
+    <!-- Paste the battle screen right here! -->
+    <div class="battle-screen">
+        <p id="game-status" style="margin: 0; font-family: monospace; font-size: 1.1rem; font-weight: bold;">Your turn (X)!</p>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        <label for="game-mode" style="color: white; margin-right: 10px; font-weight: bold;">Game Mode:</label>
+        <select id="game-mode" style="background: #111; color: white; border: 1px solid #444; padding: 5px; border-radius: 4px; cursor: pointer;">
+            <option value="1p">1 Player (vs CPU)</option>
+            <option value="2p">2 Players (Local)</option>
+        </select>
+    </div>
+    <div style="margin-bottom: 15px; margin-top: 10px;">
+    <label for="first-player" style="font-weight: bold; margin-right: 10px;">Who plays first?</label>
+    <select id="first-player" class="turn-dropdown">
+        <option value="player">You (X)</option>
+        <option value="computer">Computer (O)</option>
+    </select>
+</div>
+                    <div class="tic-tac-toe-board">
+                        <div class="cell" data-index="0"></div>
+                        <div class="cell" data-index="1"></div>
+                        <div class="cell" data-index="2"></div>
+                        <div class="cell" data-index="3"></div>
+                        <div class="cell" data-index="4"></div>
+                        <div class="cell" data-index="5"></div>
+                        <div class="cell" data-index="6"></div>
+                        <div class="cell" data-index="7"></div>
+                        <div class="cell" data-index="8"></div>
+                    </div>
+                    <button id="reset-game" class="btn">Restart Game</button>
+                </div>
+
+                <!-- Game 2: Boss Fight Fighter -->
+                <div class="game-box">
+                    <h3 style="color: #39E09B; margin-bottom: 10px;">Boss Fight! (Hard)</h3>
+                    
+                    <!-- NEW RETRO BATTLE SCREEN -->
+                    <div class="battle-screen">
+                        <p id="fighter-status">Defeat the digital boss!</p>
+                    </div>
+                    <div class="bullet-screen">
+                        <!-- Player's bullet (shoots left to right) -->
+                        <div class="pixel-bullet player-bullet"></div>
+                        <!-- Boss's bullet (shoots right to left) -->
+                        <div class="pixel-bullet boss-bullet"></div>
+                        <!-- A second boss bullet for chaos! -->
+                        <div class="pixel-bullet boss-bullet-2"></div>
+                    </div>
+                    
+                    <div class="health-bars">
+                        <div class="hp-box">
+                            <span>You (HP: <span id="p-hp-text">100</span>)</span>
+                            <div class="hp-bar-bg"><div id="player-hp" class="hp-fill player-hp"></div></div>
+                        </div>
+                        <div class="hp-box">
+                            <span>Boss (HP: <span id="b-hp-text">150</span>)</span>
+                            <div class="hp-bar-bg"><div id="boss-hp" class="hp-fill boss-hp"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="fighter-controls">
+                        <button id="btn-attack" class="btn action-btn">Attack</button>
+                        <button id="btn-heal" class="btn action-btn">Heal</button>
+                        <button id="reset-fighter" class="btn" style="display: none;">Play Again</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- This creates the divider line -->
+    <hr class="section-divider">
+
+    <!-- Game 3: Mini Piano -->
+    <div class="game-box piano-container">
+        <h3 style="color: #ff9d00; margin-bottom: 20px;">Mini Piano (Use Mouse or Keyboard)</h3>
+        <div class="pitch-box">
+            <button id="pitch-down">▼ Lower</button>
+            <span id="pitch-display">Normal Pitch</span>
+            <button id="pitch-up">▲ Higher</button>
+        </div>
+        <div class="piano">
+            <div class="key white" data-note="C4">A</div>
+            <div class="key black" data-note="C#4">W</div>
+            <div class="key white" data-note="D4">S</div>
+            <div class="key black" data-note="D#4">E</div>
+            <div class="key white" data-note="E4">D</div>
+            <div class="key white" data-note="F4">F</div>
+            <div class="key black" data-note="F#4">T</div>
+            <div class="key white" data-note="G4">G</div>
+            <div class="key black" data-note="G#4">Y</div>
+            <div class="key white" data-note="A4">H</div>
+            <div class="key black" data-note="A#4">U</div>
+            <div class="key white" data-note="B4">J</div>
+            <div class="key white" data-note="C5">K</div>
+        </div>
+    </div>
+    </main>
+
+    <footer>
+        <p>This website is designed by <a href="https://instagram.com/ashiqur.sf" target="_blank">ashiqur</a>. Thank you for visiting this website.</p>
+        <p>&copy; 2026 cariowns. All rights reserved.</p>
+    </footer>
+
+    <!-- Hamburger Menu Script -->
+    <script>
+        const menuBtn = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+    </script>
+<script>
+        const cells = document.querySelectorAll('.cell');
+        const statusText = document.getElementById('game-status');
+        const resetButton = document.getElementById('reset-game');
+        const firstPlayerSelect = document.getElementById('first-player');
+        const gameModeSelect = document.getElementById('game-mode'); // The new Game Mode dropdown
+        
+        let board = ["", "", "", "", "", "", "", "", ""];
+        let playerMoves = []; 
+        let computerMoves = []; // We will also use this for Player 2's moves!
+        let gameActive = true;
+        let isComputerThinking = false; 
+        
+        // --- NEW 2-PLAYER VARIABLES ---
+        let isTwoPlayer = false; 
+        let currentPlayer = "X"; // Tracks whose turn it is in 2P mode
+
+        const winConditions = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8],
+            [0, 3, 6], [1, 4, 7], [2, 5, 8],
+            [0, 4, 8], [2, 4, 6]
+        ];
+
+        cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+        resetButton.addEventListener('click', resetGame);
+        firstPlayerSelect.addEventListener('change', resetGame); 
+
+        // --- NEW GAME MODE LISTENER ---
+        gameModeSelect.addEventListener('change', (e) => {
+            isTwoPlayer = (e.target.value === '2p');
+            // Hide the "Who plays first" dropdown in 2P mode to avoid confusion
+            firstPlayerSelect.parentElement.style.display = isTwoPlayer ? 'none' : 'block';
+            resetGame();
+        });
+
+        function handleCellClick(e) {
+            const index = e.target.getAttribute('data-index');
+            
+            if (board[index] !== "" || !gameActive || isComputerThinking) return;
+
+            if (isTwoPlayer) {
+                // ==========================
+                // 2-PLAYER LOCAL MODE LOGIC
+                // ==========================
+                let currentQueue = currentPlayer === "X" ? playerMoves : computerMoves;
+                placePiece(index, currentPlayer, currentQueue);
+                checkWinner();
+
+                if (gameActive) {
+                    // Switch turns
+                    currentPlayer = currentPlayer === "X" ? "O" : "X";
+                    statusText.innerText = `Player ${currentPlayer}'s turn!`;
+                    statusText.style.color = currentPlayer === "X" ? "var(--text-color)" : "#39E09B";
+                }
+            } else {
+                // ==========================
+                // 1-PLAYER VS CPU LOGIC
+                // ==========================
+                placePiece(index, "X", playerMoves);
+                checkWinner();
+
+                if (gameActive) {
+                    isComputerThinking = true; 
+                    statusText.innerText = "Computer is thinking..."; 
+                    statusText.style.color = "#39E09B";
+                    setTimeout(computerMove, 500); 
+                }
+            }
+        }
+
+        function placePiece(index, player, moveQueue) {
+            board[index] = player;
+            let cell = document.querySelector(`.cell[data-index="${index}"]`);
+            cell.innerText = player;
+            cell.classList.add(player.toLowerCase());
+            cell.classList.remove('fading');
+            moveQueue.push(index);
+
+            if (moveQueue.length > 3) {
+                let oldestIndex = moveQueue.shift();
+                board[oldestIndex] = ""; 
+                let oldestCell = document.querySelector(`.cell[data-index="${oldestIndex}"]`);
+                oldestCell.innerText = ""; 
+                oldestCell.classList.remove(player.toLowerCase(), 'fading');
+            }
+
+            if (moveQueue.length === 3) {
+                let nextToFadeIndex = moveQueue[0];
+                let nextToFadeCell = document.querySelector(`.cell[data-index="${nextToFadeIndex}"]`);
+                nextToFadeCell.classList.add('fading');
+            }
+        }
+
+        function computerMove() {
+            let available = [];
+            board.forEach((val, idx) => { if (val === "") available.push(idx); });
+            if (available.length === 0) return;
+
+            let selectedIdx = -1;
+
+            // 🧠 MAGIC FIX: Identify the computer's oldest piece that is about to fade!
+            let fadingComputerPiece = computerMoves.length === 3 ? computerMoves[0] : -1;
+
+            // 1. Computer tries to win (but ignores fake wins!)
+            for(let i=0; i<winConditions.length; i++) {
+                let [a,b,c] = winConditions[i];
+                
+                // If a winning line relies on the piece that is about to vanish, IGNORE IT!
+                if (a === fadingComputerPiece || b === fadingComputerPiece || c === fadingComputerPiece) {
+                    continue; 
+                }
+
+                let line = [board[a], board[b], board[c]];
+                if (line.filter(x => x === "O").length === 2 && line.filter(x => x === "").length === 1) {
+                    selectedIdx = line.indexOf("") === 0 ? a : (line.indexOf("") === 1 ? b : c);
+                    break;
+                }
+            }
+
+            // 2. Computer blocks you
+            if (selectedIdx === -1) {
+                for(let i=0; i<winConditions.length; i++) {
+                    let [a,b,c] = winConditions[i];
+                    let line = [board[a], board[b], board[c]];
+                    if (line.filter(x => x === "X").length === 2 && line.filter(x => x === "").length === 1) {
+                        selectedIdx = line.indexOf("") === 0 ? a : (line.indexOf("") === 1 ? b : c);
+                        break;
+                    }
+                }
+            }
+
+            // 3. Strategic choice (Center -> Corners -> Edges)
+            if (selectedIdx === -1) {
+                if (board[4] === "") {
+                    selectedIdx = 4;
+                } else {
+                    const corners = [0, 2, 6, 8].filter(idx => board[idx] === "");
+                    if (corners.length > 0) {
+                        selectedIdx = corners[Math.floor(Math.random() * corners.length)];
+                    } else {
+                        selectedIdx = available[Math.floor(Math.random() * available.length)];
+                    }
+                }
+            }
+
+            placePiece(selectedIdx, "O", computerMoves);
+            checkWinner();
+            isComputerThinking = false; 
+            
+            if (gameActive) {
+                statusText.innerText = "Your turn (X)!";
+                statusText.style.color = "var(--text-color)";
+            }
+        }
+        function checkWinner() {
+            let roundWon = false;
+            let winner = "";
+
+            for (let i = 0; i < winConditions.length; i++) {
+                const [a, b, c] = winConditions[i];
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    roundWon = true;
+                    winner = board[a];
+                    break;
+                }
+            }
+
+            if (roundWon) {
+                if (isTwoPlayer) {
+                    statusText.innerText = `Player ${winner} Wins! 🎉`;
+                } else {
+                    statusText.innerText = winner === "X" ? "You Win! 🎉" : "Computer Wins! 🤖";
+                }
+                statusText.style.color = winner === "X" ? "var(--accent-color)" : "#39E09B";
+                gameActive = false;
+                cells.forEach(cell => cell.classList.remove('fading'));
+            }
+        }
+
+        function resetGame() {
+            board = ["", "", "", "", "", "", "", "", ""];
+            playerMoves = [];
+            computerMoves = [];
+            gameActive = true;
+            isComputerThinking = false;
+            currentPlayer = "X"; // Always reset to X
+            
+            cells.forEach(cell => {
+                cell.innerText = "";
+                cell.classList.remove("x", "o", "fading");
+            });
+
+            if (isTwoPlayer) {
+                statusText.innerText = "Player X's turn!";
+                statusText.style.color = "var(--text-color)";
+            } else {
+                if (firstPlayerSelect.value === 'computer') {
+                    statusText.innerText = "Computer is thinking...";
+                    statusText.style.color = "#39E09B";
+                    isComputerThinking = true;
+                    setTimeout(computerMove, 500); 
+                } else {
+                    statusText.innerText = "You vs. Computer. Your turn (X)!";
+                    statusText.style.color = "var(--text-color)";
+                }
+            }
+        }
+    </script>
+    <!-- Fighter Game Logic -->
+    <script>
+        let playerHp = 100;
+        let bossHp = 150; // Boss starts with more HP!
+        let fighterActive = true;
+
+        const pBar = document.getElementById('player-hp');
+        const bBar = document.getElementById('boss-hp');
+        const pText = document.getElementById('p-hp-text');
+        const bText = document.getElementById('b-hp-text');
+        const fStatus = document.getElementById('fighter-status');
+        const attackBtn = document.getElementById('btn-attack');
+        const healBtn = document.getElementById('btn-heal');
+        const resetFighterBtn = document.getElementById('reset-fighter');
+
+        attackBtn.addEventListener('click', () => playerTurn('attack'));
+        healBtn.addEventListener('click', () => playerTurn('heal'));
+        resetFighterBtn.addEventListener('click', resetFighter);
+
+        function updateBars() {
+            pBar.style.width = Math.max(0, playerHp) + '%';
+            bBar.style.width = (Math.max(0, bossHp) / 1.5) + '%'; // Divided by 1.5 because max is 150
+            pText.innerText = Math.max(0, playerHp);
+            bText.innerText = Math.max(0, bossHp);
+        }
+
+        function playerTurn(action) {
+            if(!fighterActive) return;
+
+            if(action === 'attack') {
+                let dmg = Math.floor(Math.random() * 11) + 10; 
+                bossHp -= dmg;
+                fStatus.innerHTML = `💥 BANG! 🔫<br>You dealt ${dmg} damage.`;
+                fStatus.style.color = 'var(--accent-color)';
+                
+                // 🔫 FIRE THE PLAYER BULLET!
+                const pBullet = document.querySelector('.player-bullet');
+                if(pBullet) {
+                    pBullet.classList.remove('firing'); 
+                    void pBullet.offsetWidth; // Force reset
+                    pBullet.classList.add('firing'); // Shoot!
+                }
+                
+            } else {
+                let heal = Math.floor(Math.random() * 16) + 15; 
+                playerHp = Math.min(100, playerHp + heal);
+                fStatus.innerHTML = `✨ HEALED ✨<br>Recovered ${heal} HP!`;
+                fStatus.style.color = '#39E09B';
+            }
+
+            updateBars();
+            checkFighterWin();
+
+            if(fighterActive) {
+                attackBtn.disabled = true;
+                healBtn.disabled = true;
+                setTimeout(bossTurn, 1000); 
+            }
+        }
+
+        function bossTurn() {
+            let dmg = Math.floor(Math.random() * 16) + 15; 
+            playerHp -= dmg;
+            fStatus.innerHTML = `🩸 OUCH! 🩸<br>Boss hit for ${dmg} damage.`;
+            fStatus.style.color = 'white';
+            
+            // 🔫 FIRE THE BOSS BULLETS!
+            const bBullet1 = document.querySelector('.boss-bullet');
+            const bBullet2 = document.querySelector('.boss-bullet-2');
+            if(bBullet1 && bBullet2) {
+                bBullet1.classList.remove('firing');
+                bBullet2.classList.remove('firing');
+                void bBullet1.offsetWidth; // Force reset
+                bBullet1.classList.add('firing'); // Shoot bullet 1!
+                bBullet2.classList.add('firing'); // Shoot bullet 2!
+            }
+
+            updateBars();
+            checkFighterWin();
+            attackBtn.disabled = false;
+            healBtn.disabled = false;
+        }
+        function checkFighterWin() {
+            if(bossHp <= 0) {
+                fStatus.innerHTML = "🏆 VICTORY! 🏆<br>You defeated the Boss!";
+                fStatus.style.color = '#39E09B';
+                endFighter();
+            } else if (playerHp <= 0) {
+                fStatus.innerHTML = "💀 GAME OVER 💀<br>You were destroyed.";
+                fStatus.style.color = 'var(--accent-color)';
+                endFighter();
+            }
+        }
+        function endFighter() {
+            fighterActive = false;
+            attackBtn.style.display = 'none';
+            healBtn.style.display = 'none';
+            resetFighterBtn.style.display = 'inline-block';
+        }
+
+        function resetFighter() {
+            playerHp = 100;
+            bossHp = 150;
+            fighterActive = true;
+            fStatus.innerText = "Defeat the digital boss!";
+            fStatus.style.color = 'white';
+            attackBtn.style.display = 'inline-block';
+            healBtn.style.display = 'inline-block';
+            resetFighterBtn.style.display = 'none';
+            attackBtn.disabled = false;
+            healBtn.disabled = false;
+            updateBars();
+        }
+// ==========================================
+        // 🎹 ADVANCED MINI PIANO LOGIC
+        // ==========================================
+        
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
+
+        const frequencies = {
+            "C4": 261.63, "C#4": 277.18, "D4": 293.66, "D#4": 311.13,
+            "E4": 329.63, "F4": 349.23, "F#4": 369.99, "G4": 392.00,
+            "G#4": 415.30, "A4": 440.00, "A#4": 466.16, "B4": 493.88,
+            "C5": 523.25
+        };
+
+        // This object acts as the piano's "memory"
+        const activeNotes = {};
+        
+        // --- NEW PITCH SHIFT LOGIC ---
+        let currentPitchShift = 0; // 0 is normal, 1 is an octave up, -1 is an octave down
+        const pitchDisplay = document.getElementById('pitch-display');
+
+        document.getElementById('pitch-down').addEventListener('click', () => {
+            if (currentPitchShift > -2) currentPitchShift--; // Limit to 2 octaves down
+            updatePitchDisplay();
+        });
+
+        document.getElementById('pitch-up').addEventListener('click', () => {
+            if (currentPitchShift < 2) currentPitchShift++; // Limit to 2 octaves up
+            updatePitchDisplay();
+        });
+
+        function updatePitchDisplay() {
+            if (currentPitchShift === 0) pitchDisplay.innerText = "Normal Pitch";
+            else if (currentPitchShift > 0) pitchDisplay.innerText = `Pitch +${currentPitchShift}`;
+            else pitchDisplay.innerText = `Pitch ${currentPitchShift}`;
+        }
+
+        // --- UPGRADED START NOTE FUNCTION ---
+        function startNote(note) {
+            if (!frequencies[note]) return;
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
+            if (activeNotes[note]) return;
+
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            osc.type = 'triangle'; 
+            
+            // MAGIC MATH: Multiply the frequency by 2 to go up an octave, divide by 2 to go down!
+            const shiftedFrequency = frequencies[note] * Math.pow(2, currentPitchShift);
+            osc.frequency.setValueAtTime(shiftedFrequency, audioCtx.currentTime);
+            
+            gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
+            
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            osc.start();
+            
+            activeNotes[note] = { osc, gainNode };
+        }
+
+        function stopNote(note) {
+            if (!activeNotes[note]) return;
+
+            const { osc, gainNode } = activeNotes[note];
+            
+            // When released, fade it out smoothly over half a second
+            gainNode.gain.setValueAtTime(gainNode.gain.value, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5); 
+            osc.stop(audioCtx.currentTime + 0.5);
+            
+            // Delete from memory
+            delete activeNotes[note];
+        }
+
+        // --- MOUSE AND DRAG TRACKING ---
+        let isMouseDown = false;
+        document.addEventListener('mousedown', () => isMouseDown = true);
+        document.addEventListener('mouseup', () => isMouseDown = false);
+
+        const pianoKeys = document.querySelectorAll('.key');
+        
+        pianoKeys.forEach(key => {
+            const note = key.getAttribute('data-note');
+
+            // 1. Initial Click Down
+            key.addEventListener('mousedown', () => {
+                startNote(note);
+                key.classList.add('active');
+            });
+
+            // 2. Dragging over keys while holding the mouse button!
+            key.addEventListener('mouseenter', () => {
+                if (isMouseDown) {
+                    startNote(note);
+                    key.classList.add('active');
+                }
+            });
+
+            // 3. Releasing the mouse OR sliding off the key
+            key.addEventListener('mouseup', () => {
+                stopNote(note);
+                key.classList.remove('active');
+            });
+            key.addEventListener('mouseleave', () => {
+                stopNote(note);
+                key.classList.remove('active');
+            });
+        });
+
+        // --- KEYBOARD TRACKING ---
+        const keyMap = {
+            'a': 'C4', 'w': 'C#4', 's': 'D4', 'e': 'D#4', 'd': 'E4',
+            'f': 'F4', 't': 'F#4', 'g': 'G4', 'y': 'G#4', 'h': 'A4',
+            'u': 'A#4', 'j': 'B4', 'k': 'C5'
+        };
+
+        // When you press a keyboard key DOWN
+        document.addEventListener('keydown', (e) => {
+            if (e.repeat) return; 
+            const note = keyMap[e.key.toLowerCase()];
+            if (note) {
+                startNote(note);
+                const keyElement = document.querySelector(`.key[data-note="${note}"]`);
+                if (keyElement) keyElement.classList.add('active');
+            }
+        });
+
+        // When you let GO of the keyboard key
+        document.addEventListener('keyup', (e) => {
+            const note = keyMap[e.key.toLowerCase()];
+            if (note) {
+                stopNote(note);
+                const keyElement = document.querySelector(`.key[data-note="${note}"]`);
+                if (keyElement) keyElement.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
