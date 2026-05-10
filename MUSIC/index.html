@@ -95,12 +95,11 @@
             menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
         }
 
-        // 2. Web Audio API Master Logic (Zero-Noise Fades)
+        // 2. Pro Web Audio API Logic (Perfected Fade-Out)
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         const audioCtx = new AudioCtx();
 
         document.querySelectorAll('audio').forEach(audio => {
-            // Setup Wrapper & Spinner
             const wrapper = document.createElement('div');
             wrapper.className = 'audio-wrapper';
             const spinner = document.createElement('div');
@@ -109,28 +108,28 @@
             wrapper.appendChild(spinner);
             wrapper.appendChild(audio);
 
-            // Create Web Audio Nodes
             const source = audioCtx.createMediaElementSource(audio);
             const gainNode = audioCtx.createGain();
             source.connect(gainNode);
             gainNode.connect(audioCtx.destination);
 
             let previewTimeout;
+            let isTransitioning = false; // Prevents "Pause" from cutting off the fade
 
             audio.addEventListener('waiting', () => wrapper.classList.add('is-loading'));
             audio.addEventListener('playing', () => wrapper.classList.remove('is-loading'));
 
             audio.addEventListener('play', function() {
-                // Resume context if suspended (browser security)
                 if (audioCtx.state === 'suspended') audioCtx.resume();
+                if (isTransitioning) return;
 
                 // Auto-pause others
                 document.querySelectorAll('audio').forEach(other => {
                     if (other !== audio && !other.paused) other.pause();
                 });
 
-                // Reset timers and silence immediately
                 clearTimeout(previewTimeout);
+                // Start from dead silence
                 gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
                 gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
 
@@ -138,19 +137,20 @@
                     const maxStart = audio.duration > 12 ? audio.duration - 12 : 0;
                     audio.currentTime = Math.random() * maxStart;
 
-                    // --- HARDWARE-LEVEL FADE IN (1s) ---
-                    // We use exponential ramp for natural "human" hearing curves
+                    // 1s Smooth Fade In
                     gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 1);
 
-                    // Schedule Fade Out at 9 seconds
+                    // Auto Fade Out at 9 seconds
                     previewTimeout = setTimeout(() => {
+                        isTransitioning = true;
                         gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
-                        // --- HARDWARE-LEVEL FADE OUT (1s) ---
-                        gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1);
+                        // 1.5s Longer, smoother auto fade out
+                        gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.5);
                         
                         setTimeout(() => { 
-                            if (!audio.paused) audio.pause(); 
-                        }, 1000);
+                            audio.pause(); 
+                            isTransitioning = false;
+                        }, 1500);
                     }, 9000);
                 };
 
@@ -161,16 +161,28 @@
                 }
             });
 
-            // Handle Manual Pause Fade
-            audio.onpause = (e) => {
+            // 3. THE FIX: INTERCEPT MANUAL PAUSE
+            // This forces a quick 400ms fade before the browser kills the audio
+            audio.addEventListener('pause', function(e) {
                 wrapper.classList.remove('is-loading');
-                // If we are pausing while sound is still playing, do a quick micro-fade
-                if (gainNode.gain.value > 0.01) {
-                    gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
-                    gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.3);
-                }
                 clearTimeout(previewTimeout);
-            };
+
+                if (!isTransitioning && gainNode.gain.value > 0.01) {
+                    isTransitioning = true;
+                    
+                    // Keep playing temporarily while we fade
+                    audio.play(); 
+
+                    gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+                    // Quick but audible 400ms "dip"
+                    gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.4);
+
+                    setTimeout(() => {
+                        audio.pause();
+                        isTransitioning = false;
+                    }, 400);
+                }
+            });
         });
     </script>
 </body>
