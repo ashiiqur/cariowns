@@ -355,32 +355,49 @@
         const openBtn = document.getElementById('open-links-btn');
         const closeBtn = document.querySelector('.close-modal');
 
-        let scrollPosition = 0;
-        // Open modal when button is clicked
-openBtn.onclick = function() {
-    scrollPosition = window.pageYOffset;
-    document.body.style.top = `-${scrollPosition}px`;
-    document.body.classList.add('body-no-scroll');
-    modal.style.display = "flex";
-}
+ let scrollPosition = 0;
 
-// Function to close and reset position
-function closeModal() {
-    document.body.classList.remove('body-no-scroll');
-    document.body.style.top = '';
-    window.scrollTo(0, scrollPosition);
-    modal.style.display = "none";
-}
+        // 1. Open modal and trick the browser history
+        openBtn.onclick = function() {
+            scrollPosition = window.pageYOffset;
+            document.body.style.top = `-${scrollPosition}px`;
+            document.body.classList.add('body-no-scroll');
+            modal.style.display = "flex";
+            
+            // MAGIC: Add a "fake" step to the phone's history
+            window.history.pushState({ modalOpen: true }, "", "");
+        }
 
-// Close modal when X is clicked
-closeBtn.onclick = closeModal;
+        // 2. The core function to hide the modal
+        function closeModal() {
+            document.body.classList.remove('body-no-scroll');
+            document.body.style.top = '';
+            window.scrollTo(0, scrollPosition);
+            modal.style.display = "none";
+        }
 
-// Close modal if user clicks the dark background
-window.onclick = function(event) {
-    if (event.target == modal) {
-        closeModal();
-    }
-}
+        // 3. When the user clicks the 'X' or the dark background
+        function closeFromUI() {
+            if (modal.style.display === "flex") {
+                closeModal();
+                window.history.back(); // Silently remove the fake history step
+            }
+        }
+
+        closeBtn.onclick = closeFromUI;
+        
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeFromUI();
+            }
+        }
+
+        // 4. MAGIC: Intercept the phone's hardware Back Button/Swipe
+        window.addEventListener('popstate', function() {
+            if (modal.style.display === "flex") {
+                closeModal(); // Hide the modal instead of leaving the page!
+            }
+        });
         // ==========================================
         // COPY LINK DROPDOWN LOGIC
         // ==========================================
