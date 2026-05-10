@@ -87,66 +87,71 @@
     </footer>
 
     <script>
+        // 1. Mobile Menu Logic
         const menuBtn = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
-        menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
-        // --- NEW: RANDOM 10-SECOND PREVIEW LOGIC ---
+        if(menuBtn) {
+            menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+        }
+
+        // 2. Smooth 10s Random Preview Logic
         document.querySelectorAll('audio').forEach(audio => {
             let fadeInterval;
             let previewTimeout;
-            
+
             audio.addEventListener('play', function() {
+                // If it's already doing a preview, let it keep going
                 if (audio.dataset.isPreviewing === 'true') return;
-                audio.pause();
-                
-                if (isNaN(audio.duration)) {
-                    audio.addEventListener('loadedmetadata', () => audio.play(), {once: true});
-                    return;
-                }
 
-                if (audio.duration <= 10) {
-                    audio.dataset.isPreviewing = 'true';
-                    audio.volume = 1;
-                    audio.play();
-                    return;
-                }
-
-                audio.dataset.isPreviewing = 'true';
-                const randomStart = Math.random() * (audio.duration - 10);
-                audio.currentTime = randomStart;
+                // Instantly mute the track so the user doesn't hear the very beginning
                 audio.volume = 0;
-                audio.play();
+                audio.dataset.isPreviewing = 'true';
 
-                clearInterval(fadeInterval);
-                clearTimeout(previewTimeout);
+                const startPreview = () => {
+                    // Pick a random time (leaving at least 11 seconds at the end)
+                    const maxStart = audio.duration > 12 ? audio.duration - 12 : 0;
+                    audio.currentTime = Math.random() * maxStart;
 
-                // Fade In
-                let vol = 0;
-                fadeInterval = setInterval(() => {
-                    vol += 0.05;
-                    if (vol >= 1) { vol = 1; clearInterval(fadeInterval); }
-                    audio.volume = vol;
-                }, 50);
-
-                // Schedule Fade Out at 9 seconds
-                previewTimeout = setTimeout(() => {
                     clearInterval(fadeInterval);
-                    let fadeOutVol = audio.volume;
+                    clearTimeout(previewTimeout);
+
+                    // Fade In smoothly
                     fadeInterval = setInterval(() => {
-                        fadeOutVol -= 0.05;
-                        if (fadeOutVol <= 0) {
-                            fadeOutVol = 0;
+                        if (audio.volume < 0.95) {
+                            audio.volume += 0.05;
+                        } else {
+                            audio.volume = 1;
                             clearInterval(fadeInterval);
-                            audio.pause();
-                            audio.dataset.isPreviewing = 'false'; 
                         }
-                        audio.volume = fadeOutVol;
                     }, 50);
-                }, 9000); 
+
+                    // Start Fade Out exactly at 9 seconds
+                    previewTimeout = setTimeout(() => {
+                        clearInterval(fadeInterval);
+                        fadeInterval = setInterval(() => {
+                            if (audio.volume > 0.05) {
+                                audio.volume -= 0.05;
+                            } else {
+                                audio.volume = 0;
+                                clearInterval(fadeInterval);
+                                audio.pause(); // Turn it off after fade completes
+                                audio.dataset.isPreviewing = 'false'; // Reset for the next click
+                            }
+                        }, 50);
+                    }, 9000);
+                };
+
+                // Wait for the song data to load before jumping
+                if (audio.readyState >= 1) {
+                    startPreview();
+                } else {
+                    audio.addEventListener('loadedmetadata', startPreview, { once: true });
+                }
             });
 
+            // If the user manually clicks Pause in the middle of a preview, reset everything
             audio.addEventListener('pause', () => {
-                if (!(audio.volume > 0 && audio.volume < 1 && audio.dataset.isPreviewing === 'true')) {
+                if (audio.volume > 0) { // Ensures we don't interfere with our automatic fade-out pause
                     clearInterval(fadeInterval);
                     clearTimeout(previewTimeout);
                     audio.dataset.isPreviewing = 'false';
