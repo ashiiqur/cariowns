@@ -989,34 +989,45 @@ audio {
 .copy-action:hover {
     background-color: #333;
 }
-/* --- AUDIO LOADING SPINNER --- */
+/* --- AUDIO LOADING SPINNER (PERFECT ALIGNMENT) --- */
 .audio-wrapper {
     position: relative;
+    display: block;
+    width: 100%;
+    line-height: 0; /* Removes invisible bottom spacing */
+}
+
+/* Forces the audio to perfectly fill the wrapper */
+.audio-wrapper audio {
     display: block;
     width: 100%;
 }
 
 .audio-spinner {
     position: absolute;
+    /* 🛠️ NUDGE CONTROLS: Change these to perfectly align with your browser */
     top: 50%;
-    left: 16px; /* Positions it over the native play button */
-    width: 24px; 
-    height: 24px;
-    border: 3px solid rgba(255, 66, 77, 0.2); /* Light transparent red */
-    border-top: 3px solid #ff424d; /* Solid red for the spinning part */
+    left: 13px; /* Try 12px, 14px, or 16px if it needs to move left/right */
+    
+    width: 26px; 
+    height: 26px;
+    margin-top: -16px; /* Locks it vertically without wobbling */
+    
+    border: 3px solid rgba(255, 66, 77, 0.2); 
+    border-top: 3px solid #ff424d; 
     border-radius: 50%;
     animation: spin 1s linear infinite;
-    display: none; /* Hidden by default */
-    pointer-events: none; /* Lets the user click through it to the real button */
+    display: none; 
+    pointer-events: none; 
     z-index: 10;
 }
 
+/* Simplified animation to prevent wobbling */
 @keyframes spin {
-    0% { transform: translateY(-50%) rotate(0deg); }
-    100% { transform: translateY(-50%) rotate(360deg); }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
-/* When the wrapper gets the loading class, show the spinner */
 .is-loading .audio-spinner {
     display: block;
 }
