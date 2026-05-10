@@ -95,68 +95,62 @@
             menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
         }
 
-        // 2. Flawless Fades with Smooth Manual Pause
+        // 2. Web Audio API Master Logic (Zero-Noise Fades)
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioCtx();
+
         document.querySelectorAll('audio').forEach(audio => {
+            // Setup Wrapper & Spinner
             const wrapper = document.createElement('div');
             wrapper.className = 'audio-wrapper';
             const spinner = document.createElement('div');
             spinner.className = 'audio-spinner';
-            
             audio.parentNode.insertBefore(wrapper, audio);
             wrapper.appendChild(spinner);
             wrapper.appendChild(audio);
 
-            let fadeAnimation;
+            // Create Web Audio Nodes
+            const source = audioCtx.createMediaElementSource(audio);
+            const gainNode = audioCtx.createGain();
+            source.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
             let previewTimeout;
-            let isManualPausing = false; // Prevents loops
 
             audio.addEventListener('waiting', () => wrapper.classList.add('is-loading'));
             audio.addEventListener('playing', () => wrapper.classList.remove('is-loading'));
 
-            // --- THE MASTER FADE FUNCTION ---
-            const animateVolume = (startVol, endVol, duration, callback) => {
-                const startTime = performance.now();
-                const fade = (currentTime) => {
-                    const elapsed = currentTime - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    audio.volume = startVol + (endVol - startVol) * progress;
-
-                    if (progress < 1) {
-                        fadeAnimation = requestAnimationFrame(fade);
-                    } else if (callback) {
-                        callback();
-                    }
-                };
-                fadeAnimation = requestAnimationFrame(fade);
-            };
-
             audio.addEventListener('play', function() {
-                if (isManualPausing) return;
+                // Resume context if suspended (browser security)
+                if (audioCtx.state === 'suspended') audioCtx.resume();
 
-                // Auto-pause other songs
+                // Auto-pause others
                 document.querySelectorAll('audio').forEach(other => {
                     if (other !== audio && !other.paused) other.pause();
                 });
 
-                audio.volume = 0;
-                cancelAnimationFrame(fadeAnimation);
+                // Reset timers and silence immediately
                 clearTimeout(previewTimeout);
-                wrapper.classList.add('is-loading');
+                gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+                gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
 
                 const startPreview = () => {
                     const maxStart = audio.duration > 12 ? audio.duration - 12 : 0;
                     audio.currentTime = Math.random() * maxStart;
 
-                    // Smooth Fade In (1 second)
-                    animateVolume(0, 1, 1000);
+                    // --- HARDWARE-LEVEL FADE IN (1s) ---
+                    // We use exponential ramp for natural "human" hearing curves
+                    gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 1);
 
-                    // Schedule Auto Fade Out
+                    // Schedule Fade Out at 9 seconds
                     previewTimeout = setTimeout(() => {
-                        animateVolume(audio.volume, 0, 1000, () => {
-                            isManualPausing = true; 
-                            audio.pause();
-                            isManualPausing = false;
-                        });
+                        gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+                        // --- HARDWARE-LEVEL FADE OUT (1s) ---
+                        gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1);
+                        
+                        setTimeout(() => { 
+                            if (!audio.paused) audio.pause(); 
+                        }, 1000);
                     }, 9000);
                 };
 
@@ -167,25 +161,15 @@
                 }
             });
 
-            // --- SMOOTH MANUAL PAUSE ---
-            // We listen for the 'pause' event. If it wasn't triggered by our auto-fade,
-            // we quickly fade out before fully stopping.
+            // Handle Manual Pause Fade
             audio.onpause = (e) => {
                 wrapper.classList.remove('is-loading');
-                if (!isManualPausing && audio.volume > 0.01) {
-                    e.preventDefault(); // Stop the instant pause
-                    audio.play(); // Keep playing for a micro-second while we fade
-                    
-                    isManualPausing = true;
-                    cancelAnimationFrame(fadeAnimation);
-                    clearTimeout(previewTimeout);
-
-                    // Quick 300ms fade out for manual clicks
-                    animateVolume(audio.volume, 0, 300, () => {
-                        audio.pause();
-                        isManualPausing = false;
-                    });
+                // If we are pausing while sound is still playing, do a quick micro-fade
+                if (gainNode.gain.value > 0.01) {
+                    gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.3);
                 }
+                clearTimeout(previewTimeout);
             };
         });
     </script>
