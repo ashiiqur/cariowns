@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cariowns | Visuals</title>
+    <link rel="icon" type="image/jpeg" href="favicon.jpg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="../" style="display: flex; align-items: center; text-decoration: none; gap: 15px;">
+                <img src="assets/logo.png" alt="cariowns logo">
+                <span style="font-size: 24px; font-weight: bold; letter-spacing: 1.5px; color: #ffffff;">cariowns</span>
+            </a>
+        </div>
+        
+        <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+
+        <nav class="nav-links">
+            <a href="../">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                Home
+            </a>
+            <a href="../MUSIC/">Music</a>
+            <a href="./" class="active">Visuals</a> <!-- ACTIVE LINK -->
+            <a href="../ABOUT/">About</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Visual Art Gallery</h1>
+        <p>Digital creations and photography.</p>
+        
+        <p id="global-last-updated" style="color: #39E09B; font-size: 0.9rem; font-weight: bold; letter-spacing: 1px; margin-bottom: 30px;">Last Updated: Checking server...</p>
+
+        <!-- Visuals Grid -->
+        <div class="gallery-grid">
+            <div class="gallery-item" data-time="May 10, 2026 • 12:45">
+                <img src="assets/art1.jpg" alt="Artwork 1">
+                <div class="gallery-overlay">
+                    Glitch Logo
+                    <p class="upload-date">Loading date...</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-time="May 10, 2026 • 12:45">
+                <img src="assets/art2.jpg" alt="Artwork 2">
+                <div class="gallery-overlay">
+                    Nostalgic World
+                    <p class="upload-date">Loading date...</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-time="May 10, 2026 • 12:45">
+                <img src="assets/art3.jpg" alt="Artwork 3">
+                <div class="gallery-overlay">
+                    Evening Village
+                <p class="upload-date">Loading date...</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-time="May 10, 2026 • 12:45">
+                <img src="assets/art4.gif" alt="Artwork 4">
+                <div class="gallery-overlay">
+                    Logo Animation
+                    <p class="upload-date">Loading date...</p>
+                    </div>
+            </div>
+
+            <div class="gallery-item" data-time="May 10, 2026 • 12:45">
+                <img src="assets/art5.jpg" alt="Artwork 5">
+                <div class="gallery-overlay">
+                    Hill
+                    <p class="upload-date">Loading date...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>This website is designed by <a href="https://instagram.com/ashiqur.sf" target="_blank">ashiqur</a>. Thank you for visiting this website.</p>
+        <p>&copy; 2026 cariowns. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const menuBtn = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+// ==========================================
+        // 1. GLOBAL PAGE UPDATE TIME (Automatic)
+        // ==========================================
+        // This asks the server when the website itself was last updated
+        fetch(window.location.href, { method: 'HEAD' })
+            .then(response => {
+                const lastModified = response.headers.get('Last-Modified');
+                const globalDisplay = document.getElementById('global-last-updated');
+                
+                if (lastModified && globalDisplay) {
+                    const d = new Date(lastModified);
+                    const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    const timeStr = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+                    globalDisplay.innerHTML = `GALLERY UPDATED: ${dateStr} • ${timeStr}`;
+                }
+            }).catch(() => {
+                document.getElementById('global-last-updated').innerHTML = "GALLERY UPDATED: LIVE";
+            });
+
+        // ==========================================
+        // 2. INDIVIDUAL ARTWORK DATES (Manual)
+        // ==========================================
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            const dateDisplay = item.querySelector('.upload-date');
+            
+            // This looks for the data-time="..." you type in the HTML
+            const manualTime = item.getAttribute('data-time'); 
+            
+            if (dateDisplay) {
+                if (manualTime) {
+                    dateDisplay.innerHTML = `UPLOAD TIME: ${manualTime}`;
+                } else {
+                    // Friendly reminder if you forget to add the data-time!
+                    dateDisplay.innerHTML = "UPLOAD TIME: DATE NOT SET"; 
+                }
+            }
+        });
+    </script>
+</body>
+</html>
