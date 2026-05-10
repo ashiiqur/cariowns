@@ -989,45 +989,55 @@ audio {
 .copy-action:hover {
     background-color: #333;
 }
-/* --- AUDIO LOADING SPINNER (PERFECT ALIGNMENT) --- */
+/* --- AUDIO LOADING BAR (HORIZONTAL) --- */
 .audio-wrapper {
     position: relative;
     display: block;
     width: 100%;
-    line-height: 0; /* Removes invisible bottom spacing */
+    line-height: 0;
+    padding-top: 8px; /* Creates safe space for the line above the player */
 }
 
-/* Forces the audio to perfectly fill the wrapper */
 .audio-wrapper audio {
     display: block;
     width: 100%;
 }
 
+/* The background track for the line */
 .audio-spinner {
     position: absolute;
-    /* 🛠️ NUDGE CONTROLS: Change these to perfectly align with your browser */
-    top: 50%;
-    left: 13px; /* Try 12px, 14px, or 16px if it needs to move left/right */
-    
-    width: 26px; 
-    height: 26px;
-    margin-top: -16px; /* Locks it vertically without wobbling */
-    
-    border: 3px solid rgba(255, 66, 77, 0.2); 
-    border-top: 3px solid #ff424d; 
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
+    top: 0; /* Sits at the very top of the wrapper */
+    left: 0;
+    width: 100%;
+    height: 3px; /* Thickness of the line */
+    background-color: rgba(255, 66, 77, 0.15); /* Very faint red background */
+    border-radius: 4px;
+    overflow: hidden;
     display: none; 
     pointer-events: none; 
-    z-index: 10;
 }
 
-/* Simplified animation to prevent wobbling */
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+/* The moving red highlight */
+.audio-spinner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 30%; /* Length of the moving piece */
+    background-color: #ff424d; /* Solid red */
+    border-radius: 4px;
+    animation: sweepBar 1.5s ease-in-out infinite; /* Swipes back and forth */
 }
 
+/* The animation that makes it swipe left and right */
+@keyframes sweepBar {
+    0% { left: -30%; }
+    50% { left: 100%; }
+    100% { left: -30%; }
+}
+
+/* Show the line when buffering */
 .is-loading .audio-spinner {
     display: block;
 }
