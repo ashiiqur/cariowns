@@ -989,3 +989,34 @@ audio {
 .copy-action:hover {
     background-color: #333;
 }
+/* --- AUDIO LOADING SPINNER --- */
+.audio-wrapper {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.audio-spinner {
+    position: absolute;
+    top: 50%;
+    left: 16px; /* Positions it over the native play button */
+    width: 24px; 
+    height: 24px;
+    border: 3px solid rgba(255, 66, 77, 0.2); /* Light transparent red */
+    border-top: 3px solid #ff424d; /* Solid red for the spinning part */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    display: none; /* Hidden by default */
+    pointer-events: none; /* Lets the user click through it to the real button */
+    z-index: 10;
+}
+
+@keyframes spin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* When the wrapper gets the loading class, show the spinner */
+.is-loading .audio-spinner {
+    display: block;
+}
