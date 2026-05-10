@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cariowns | About</title>
+    <link rel="icon" type="image/jpeg" href="favicon.jpg">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="../" style="display: flex; align-items: center; text-decoration: none; gap: 15px;">
+                <img src="assets/logo.png" alt="cariowns logo">
+                <span style="font-size: 24px; font-weight: bold; letter-spacing: 1.5px; color: #ffffff;">cariowns</span>
+            </a>
+        </div>
+        
+        <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+
+        <nav class="nav-links">
+            <a href="../">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                Home
+            </a>
+<a href="../MUSIC/">Music</a>
+    <a href="../VISUALS/">Visuals</a>
+    <a href="./" class="active">About</a> <!-- ACTIVE IS NOW HERE -->
+        </nav>
+    </header>
+
+   <main>
+    <div style="max-width: 800px; margin: 0 auto; text-align: center; color: var(--text-color);">
+        <h2 style="font-size: 2rem; margin-bottom: 20px; color: var(--accent-color);">About cariowns</h2>
+        
+        <!-- Optional: Add a profile picture here later! -->
+        <!-- <img src="assets/profile.jpg" style="width: 200px; border-radius: 50%; margin-bottom: 20px;"> -->
+        
+        <p style="font-size: 1.2rem; line-height: 1.6; margin-bottom: 15px;">
+            Welcome to my creative space. I am an artist and producer focusing on immersive audio and visual experiences.
+        </p>
+        <p style="font-size: 1.2rem; line-height: 1.6;">
+            CARIOWNS is an online musical artist and creator & also a music producer known for tracks such as "Nostalgic World," "Lightning on," and "Re Ambient," which are available on streaming platforms like <a href="https://music.apple.com/in/artist/cariowns/1883788852" target="_blank" class="text-link">Apple Music</a>.
+        </p>
+        <!-- Contact Section -->
+        <div class="contact-section">
+            <h3 style="color: var(--accent-color); margin-bottom: 15px;">Get in Touch</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 20px;">For inquiries, collaborations, or just to say hi:</p>
+            <a href="mailto:music@cariowns.xyz" class="email-btn">Email Me</a>
+        </div>
+    </div>
+</main>
+
+    <footer>
+        <p>This website is designed by <a href="https://instagram.com/ashiqur.sf" target="_blank">ashiqur</a>. Thank you for visiting this website.</p>
+        <p>&copy; 2026 cariowns. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const menuBtn = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+    </script>
+</body>
+</html>
