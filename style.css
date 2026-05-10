@@ -770,3 +770,16 @@ audio {
     opacity: 1;
     transform: translateY(0);
 }
+/* --- HIDE HOME TEXT ON MOBILE --- */
+@media (max-width: 768px) {
+    .hide-on-mobile {
+        display: none !important; 
+    }
+    
+    /* Make the home icon slightly bigger to fill the space */
+    .nav-links a svg {
+        width: 24px !important;
+        height: 24px !important;
+        margin: 0; 
+    }
+}
