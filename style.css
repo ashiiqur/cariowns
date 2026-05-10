@@ -1041,12 +1041,13 @@ audio {
 .is-loading .audio-spinner {
     display: block;
 }
+/* --- PREVIEW BADGE TEXT --- */
 .preview-badge {
-    color: #888888; /* A sleek, muted grey */
+    color: #ff424d; /* Your signature red */
     font-size: 12px;
     font-weight: bold;
     letter-spacing: 2px;
-    margin-top: -10px; 
-    margin-bottom: 40px; 
-    opacity: 0.8; 
+    margin-top: -10px; /* Pulls it slightly closer to the text above it */
+    margin-bottom: 40px; /* Gives space before the music cards start */
+    opacity: 0.8; /* Makes it look a little sleek and muted */
 }
