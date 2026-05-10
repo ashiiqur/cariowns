@@ -94,12 +94,20 @@
             menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
         }
 
-        // 2. Smooth 10s Random Preview Logic
+        // 2. Smooth 10s Random Preview Logic with Auto-Pause
         document.querySelectorAll('audio').forEach(audio => {
             let fadeInterval;
             let previewTimeout;
 
             audio.addEventListener('play', function() {
+                // --- NEW: AUTO-PAUSE OTHER SONGS ---
+                document.querySelectorAll('audio').forEach(otherAudio => {
+                    // If the other audio isn't THIS audio, and it's currently playing, pause it!
+                    if (otherAudio !== audio && !otherAudio.paused) {
+                        otherAudio.pause();
+                    }
+                });
+
                 // If it's already doing a preview, let it keep going
                 if (audio.dataset.isPreviewing === 'true') return;
 
@@ -108,7 +116,7 @@
                 audio.dataset.isPreviewing = 'true';
 
                 const startPreview = () => {
-                    // Pick a random time (leaving at least 11 seconds at the end)
+                    // Pick a random time (leaving at least 12 seconds at the end)
                     const maxStart = audio.duration > 12 ? audio.duration - 12 : 0;
                     audio.currentTime = Math.random() * maxStart;
 
@@ -151,7 +159,7 @@
 
             // If the user manually clicks Pause in the middle of a preview, reset everything
             audio.addEventListener('pause', () => {
-                if (audio.volume > 0) { // Ensures we don't interfere with our automatic fade-out pause
+                if (audio.volume > 0) { 
                     clearInterval(fadeInterval);
                     clearTimeout(previewTimeout);
                     audio.dataset.isPreviewing = 'false';
