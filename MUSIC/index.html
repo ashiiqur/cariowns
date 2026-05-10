@@ -95,7 +95,7 @@
             menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
         }
 
-        // 2. Random Preview with Ultra-Smooth Fades
+        // 2. Flawless 60-FPS Time-Based Fades
         document.querySelectorAll('audio').forEach(audio => {
             
             // Inject custom loading spinner wrapper
@@ -108,7 +108,7 @@
             wrapper.appendChild(spinner);
             wrapper.appendChild(audio);
 
-            let fadeInterval;
+            let fadeAnimation; // Replaces fadeInterval
             let previewTimeout;
 
             // Loading Trackers
@@ -125,7 +125,7 @@
                 });
 
                 audio.volume = 0;
-                clearInterval(fadeInterval);
+                cancelAnimationFrame(fadeAnimation); // Kill any old animations
                 clearTimeout(previewTimeout);
                 
                 wrapper.classList.add('is-loading');
@@ -134,34 +134,44 @@
                     const maxStart = audio.duration > 12 ? audio.duration - 12 : 0;
                     audio.currentTime = Math.random() * maxStart;
 
-                    // --- ULTRA-SMOOTH FADE IN ---
-                    let currentVol = 0;
-                    fadeInterval = setInterval(() => {
-                        currentVol += 0.01; // Tiny 1% micro-steps
-                        if (currentVol >= 1) {
-                            audio.volume = 1;
-                            clearInterval(fadeInterval);
-                        } else {
-                            audio.volume = currentVol;
+                    // --- FLAWLESS FADE IN ---
+                    const fadeDuration = 1000; // 1000ms = 1 second fade
+                    const startTime = performance.now(); // High-res computer clock
+                    
+                    const fadeIn = (currentTime) => {
+                        let elapsed = currentTime - startTime;
+                        let progress = Math.min(elapsed / fadeDuration, 1);
+                        
+                        audio.volume = progress; // Perfectly maps time to volume
+                        
+                        if (progress < 1) {
+                            fadeAnimation = requestAnimationFrame(fadeIn); // Run next frame
                         }
-                    }, 10); // Super fast 10ms updates
+                    };
+                    fadeAnimation = requestAnimationFrame(fadeIn); // Start animation
 
                     // Start Fade Out at 9 seconds
                     previewTimeout = setTimeout(() => {
-                        clearInterval(fadeInterval);
+                        cancelAnimationFrame(fadeAnimation); // Stop any weird overlap
                         
-                        // --- ULTRA-SMOOTH FADE OUT ---
-                        let fadeOutVol = audio.volume;
-                        fadeInterval = setInterval(() => {
-                            fadeOutVol -= 0.01; // Tiny 1% micro-steps
-                            if (fadeOutVol <= 0) {
-                                audio.volume = 0;
-                                clearInterval(fadeInterval);
-                                audio.pause();
+                        // --- FLAWLESS FADE OUT ---
+                        const fadeOutStart = performance.now();
+                        const initialVol = audio.volume; // Start from current volume
+                        
+                        const fadeOut = (currentTime) => {
+                            let elapsed = currentTime - fadeOutStart;
+                            let progress = Math.min(elapsed / fadeDuration, 1);
+                            
+                            audio.volume = initialVol * (1 - progress); // Perfectly fade to 0
+                            
+                            if (progress < 1) {
+                                fadeAnimation = requestAnimationFrame(fadeOut);
                             } else {
-                                audio.volume = fadeOutVol;
+                                audio.volume = 0; // Lock to absolute zero
+                                audio.pause();
                             }
-                        }, 10); // Super fast 10ms updates
+                        };
+                        fadeAnimation = requestAnimationFrame(fadeOut);
                         
                     }, 9000);
                 };
@@ -174,7 +184,7 @@
             });
 
             audio.addEventListener('pause', () => {
-                clearInterval(fadeInterval);
+                cancelAnimationFrame(fadeAnimation);
                 clearTimeout(previewTimeout);
             });
         });
