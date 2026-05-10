@@ -95,7 +95,7 @@
             menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
         }
 
-        // 2. Pro Web Audio API Logic (Perfected Fade-Out)
+        // 2. Pro Web Audio API (Exponential "Human Ear" Fades)
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         const audioCtx = new AudioCtx();
 
@@ -114,7 +114,7 @@
             gainNode.connect(audioCtx.destination);
 
             let previewTimeout;
-            let isTransitioning = false; // Prevents "Pause" from cutting off the fade
+            let isTransitioning = false;
 
             audio.addEventListener('waiting', () => wrapper.classList.add('is-loading'));
             audio.addEventListener('playing', () => wrapper.classList.remove('is-loading'));
@@ -123,29 +123,30 @@
                 if (audioCtx.state === 'suspended') audioCtx.resume();
                 if (isTransitioning) return;
 
-                // Auto-pause others
                 document.querySelectorAll('audio').forEach(other => {
                     if (other !== audio && !other.paused) other.pause();
                 });
 
                 clearTimeout(previewTimeout);
-                // Start from dead silence
+                
+                // Start from almost zero (Exponential ramp cannot start at exactly 0)
                 gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
-                gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+                gainNode.gain.setValueAtTime(0.001, audioCtx.currentTime);
 
                 const startPreview = () => {
                     const maxStart = audio.duration > 12 ? audio.duration - 12 : 0;
                     audio.currentTime = Math.random() * maxStart;
 
-                    // 1s Smooth Fade In
-                    gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 1);
+                    // 1s Exponential Fade In (Much smoother start)
+                    gainNode.gain.exponentialRampToValueAtTime(1, audioCtx.currentTime + 1);
 
-                    // Auto Fade Out at 9 seconds
                     previewTimeout = setTimeout(() => {
                         isTransitioning = true;
                         gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
-                        // 1.5s Longer, smoother auto fade out
-                        gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1.5);
+                        
+                        // --- THE FIX: EXPONENTIAL FADE OUT ---
+                        // This stays "fuller" at first and then vanishes smoothly
+                        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.5);
                         
                         setTimeout(() => { 
                             audio.pause(); 
@@ -161,21 +162,17 @@
                 }
             });
 
-            // 3. THE FIX: INTERCEPT MANUAL PAUSE
-            // This forces a quick 400ms fade before the browser kills the audio
             audio.addEventListener('pause', function(e) {
                 wrapper.classList.remove('is-loading');
                 clearTimeout(previewTimeout);
 
-                if (!isTransitioning && gainNode.gain.value > 0.01) {
+                if (!isTransitioning && gainNode.gain.value > 0.05) {
                     isTransitioning = true;
-                    
-                    // Keep playing temporarily while we fade
                     audio.play(); 
 
                     gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
-                    // Quick but audible 400ms "dip"
-                    gainNode.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.4);
+                    // Quick 0.4s manual dip
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
 
                     setTimeout(() => {
                         audio.pause();
