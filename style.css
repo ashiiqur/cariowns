@@ -843,19 +843,35 @@ audio {
 }
 
 /* --- POPUP BOX --- */
+/* --- POPUP BOX --- */
 .modal-content {
     background-color: #0a0a0a;
     width: 90%;
-    max-width: 450px; /* Perfect mobile width */
+    max-width: 450px;
     border-radius: 24px;
     padding: 30px 20px;
     position: relative;
-    max-height: 85vh; /* Stops it from being taller than the screen */
-    overflow-y: auto; /* Creates a scrollbar just for the popup */
+    max-height: 85vh; 
+    overflow-y: auto; 
+    
+    /* 1. Stop scrolling from leaking to the main page */
+    overscroll-behavior: contain; 
+    
+    /* 2. Hide scrollbar for Firefox, IE, and Edge */
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+
+/* 3. Hide scrollbar for Chrome, Safari, and Opera */
+.modal-content::-webkit-scrollbar {
+    display: none;
 }
 /* --- FREEZE BACKGROUND SCROLLING --- */
+/* --- FREEZE BACKGROUND SCROLLING (BULLETPROOF) --- */
 .body-no-scroll {
-    overflow: hidden;
+    overflow: hidden !important;
+    height: 100vh !important;
+    touch-action: none; /* Forces mobile to ignore background swipes */
 }
 
 /* Close X button */
