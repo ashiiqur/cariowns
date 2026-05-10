@@ -95,7 +95,7 @@
             menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
         }
 
-        // 2. Master Web Audio Logic
+        // 2. Master Web Audio - SetTargetAtTime Logic
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         const audioCtx = new AudioCtx();
 
@@ -137,24 +137,23 @@
                     const maxStart = audio.duration > 12 ? audio.duration - 12 : 0;
                     audio.currentTime = Math.random() * maxStart;
 
-                    // 1.2s Linear Fade In (Smoother than 1s)
-                    gainNode.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 1.2);
+                    // Smooth Analog Fade In
+                    gainNode.gain.setTargetAtTime(1, audioCtx.currentTime, 0.4);
 
                     previewTimeout = setTimeout(() => {
                         isTransitioning = true;
                         const now = audioCtx.currentTime;
                         gainNode.gain.cancelScheduledValues(now);
                         
-                        // --- THE FIX: MULTI-STAGE FADE OUT ---
-                        // We drop to 20% quickly, then spend the rest of the time vanishing
-                        // This removes the "sudden" feeling and makes it sound natural.
-                        gainNode.gain.linearRampToValueAtTime(0.2, now + 0.4); 
-                        gainNode.gain.linearRampToValueAtTime(0, now + 1.5);
+                        // --- THE FIX: ANALOG DECAY ---
+                        // setTargetAtTime(target, startTime, timeConstant)
+                        // A timeConstant of 0.4 creates a very graceful, natural fade out.
+                        gainNode.gain.setTargetAtTime(0, now, 0.4);
                         
                         setTimeout(() => { 
                             audio.pause(); 
                             isTransitioning = false;
-                        }, 1550);
+                        }, 2000); // Allow more time for the "tail" of the fade
                     }, 9000);
                 };
 
@@ -165,7 +164,6 @@
                 }
             });
 
-            // 3. MANUAL PAUSE FIX
             audio.addEventListener('pause', function(e) {
                 wrapper.classList.remove('is-loading');
                 clearTimeout(previewTimeout);
@@ -177,14 +175,13 @@
                     const now = audioCtx.currentTime;
                     gainNode.gain.cancelScheduledValues(now);
                     
-                    // Quick 0.5s natural dip
-                    gainNode.gain.linearRampToValueAtTime(0.1, now + 0.2);
-                    gainNode.gain.linearRampToValueAtTime(0, now + 0.5);
+                    // Rapid but smooth analog dip for manual pause
+                    gainNode.gain.setTargetAtTime(0, now, 0.1);
 
                     setTimeout(() => {
                         audio.pause();
                         isTransitioning = false;
-                    }, 550);
+                    }, 600);
                 }
             });
         });
