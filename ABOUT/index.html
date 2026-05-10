@@ -127,6 +127,28 @@
         const menuBtn = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
         menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+
+        // Get elements
+        const modal = document.getElementById('link-modal');
+        const openBtn = document.getElementById('open-links-btn');
+        const closeBtn = document.querySelector('.close-modal');
+
+        // Open modal when button is clicked
+        openBtn.onclick = function() {
+            modal.style.display = "flex";
+        }
+
+        // Close modal when X is clicked
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Close modal if user clicks the dark background outside the box
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
     </script>
 </body>
 </html>
