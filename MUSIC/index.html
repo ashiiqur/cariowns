@@ -94,30 +94,51 @@
             menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
         }
 
-        // 2. Guaranteed Random Preview with Auto-Pause
+        // 2. Random Preview, Auto-Pause, & Loading Spinner
         document.querySelectorAll('audio').forEach(audio => {
+            
+            // --- INJECT CUSTOM LOADING SPINNER ---
+            const wrapper = document.createElement('div');
+            wrapper.className = 'audio-wrapper';
+            const spinner = document.createElement('div');
+            spinner.className = 'audio-spinner';
+            
+            // Wrap the audio element
+            audio.parentNode.insertBefore(wrapper, audio);
+            wrapper.appendChild(spinner);
+            wrapper.appendChild(audio);
+
             let fadeInterval;
             let previewTimeout;
 
+            // --- LOADING TRACKER ---
+            // Triggers when the file needs to buffer/download
+            audio.addEventListener('waiting', () => wrapper.classList.add('is-loading'));
+            // Triggers when it is downloaded enough to play
+            audio.addEventListener('playing', () => wrapper.classList.remove('is-loading'));
+            audio.addEventListener('pause', () => wrapper.classList.remove('is-loading'));
+
             audio.addEventListener('play', function() {
-                // --- AUTO-PAUSE OTHER SONGS ---
+                // Auto-pause other songs
                 document.querySelectorAll('audio').forEach(otherAudio => {
                     if (otherAudio !== audio && !otherAudio.paused) {
                         otherAudio.pause();
                     }
                 });
 
-                // Instantly mute and wipe out any old timers
+                // Instantly mute and clear old timers
                 audio.volume = 0;
                 clearInterval(fadeInterval);
                 clearTimeout(previewTimeout);
+                
+                // Show loading spinner immediately upon clicking
+                wrapper.classList.add('is-loading');
 
                 const startPreview = () => {
-                    // Force a BRAND NEW random time calculation every click
                     const maxStart = audio.duration > 12 ? audio.duration - 12 : 0;
                     audio.currentTime = Math.random() * maxStart;
 
-                    // Fade In smoothly
+                    // Fade In
                     fadeInterval = setInterval(() => {
                         if (audio.volume < 0.95) {
                             audio.volume += 0.05;
@@ -127,7 +148,7 @@
                         }
                     }, 50);
 
-                    // Start Fade Out exactly at 9 seconds
+                    // Fade Out at 9 seconds
                     previewTimeout = setTimeout(() => {
                         clearInterval(fadeInterval);
                         fadeInterval = setInterval(() => {
@@ -136,13 +157,13 @@
                             } else {
                                 audio.volume = 0;
                                 clearInterval(fadeInterval);
-                                audio.pause(); // Turn it off completely
+                                audio.pause();
                             }
                         }, 50);
                     }, 9000);
                 };
 
-                // Check if duration is loaded; if yes, jump immediately. If no, wait for it.
+                // Check if duration is loaded
                 if (audio.duration && !isNaN(audio.duration)) {
                     startPreview();
                 } else {
@@ -150,7 +171,6 @@
                 }
             });
 
-            // If the user clicks Pause or if the auto-fade pauses it, clean up the timers
             audio.addEventListener('pause', () => {
                 clearInterval(fadeInterval);
                 clearTimeout(previewTimeout);
