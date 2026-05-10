@@ -239,17 +239,20 @@
         // Open modal when button is clicked
         openBtn.onclick = function() {
             modal.style.display = "flex";
+            document.body.classList.add('body-no-scroll'); // Freezes background
         }
 
         // Close modal when X is clicked
         closeBtn.onclick = function() {
             modal.style.display = "none";
+            document.body.classList.remove('body-no-scroll'); // Unfreezes background
         }
 
-        // Close modal if user clicks the dark background outside the box
+        // Close modal if user clicks the dark background
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
+                document.body.classList.remove('body-no-scroll'); // Unfreezes background
             }
         }
         // ==========================================
