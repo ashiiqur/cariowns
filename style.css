@@ -1041,3 +1041,12 @@ audio {
 .is-loading .audio-spinner {
     display: block;
 }
+.preview-badge {
+    color: #888888; /* A sleek, muted grey */
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-top: -10px; 
+    margin-bottom: 40px; 
+    opacity: 0.8; 
+}
