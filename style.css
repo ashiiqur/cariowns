@@ -783,3 +783,34 @@ audio {
         margin: 0; 
     }
 }
+/* --- PROFESSIONAL SOCIAL ICONS --- */
+.social-gallery {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Space between icons */
+    margin: 40px 0; /* Space above and below the row */
+}
+
+.social-icon {
+    color: #ffffff; /* White icons to start */
+    transition: all 0.3s ease; /* Smooth animation */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-icon svg {
+    width: 28px;
+    height: 28px;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+}
+
+/* Hover Effect: Turns red and floats up slightly */
+.social-icon:hover {
+    color: #ff3333; /* Adjust this to perfectly match your site's red */
+    transform: translateY(-5px); 
+}
