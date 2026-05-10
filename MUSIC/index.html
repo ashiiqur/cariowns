@@ -95,16 +95,15 @@
             menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
         }
 
-        // 2. Random Preview, Auto-Pause, & Loading Spinner
+        // 2. Random Preview with Ultra-Smooth Fades
         document.querySelectorAll('audio').forEach(audio => {
             
-            // --- INJECT CUSTOM LOADING SPINNER ---
+            // Inject custom loading spinner wrapper
             const wrapper = document.createElement('div');
             wrapper.className = 'audio-wrapper';
             const spinner = document.createElement('div');
             spinner.className = 'audio-spinner';
             
-            // Wrap the audio element
             audio.parentNode.insertBefore(wrapper, audio);
             wrapper.appendChild(spinner);
             wrapper.appendChild(audio);
@@ -112,10 +111,8 @@
             let fadeInterval;
             let previewTimeout;
 
-            // --- LOADING TRACKER ---
-            // Triggers when the file needs to buffer/download
+            // Loading Trackers
             audio.addEventListener('waiting', () => wrapper.classList.add('is-loading'));
-            // Triggers when it is downloaded enough to play
             audio.addEventListener('playing', () => wrapper.classList.remove('is-loading'));
             audio.addEventListener('pause', () => wrapper.classList.remove('is-loading'));
 
@@ -127,44 +124,48 @@
                     }
                 });
 
-                // Instantly mute and clear old timers
                 audio.volume = 0;
                 clearInterval(fadeInterval);
                 clearTimeout(previewTimeout);
                 
-                // Show loading spinner immediately upon clicking
                 wrapper.classList.add('is-loading');
 
                 const startPreview = () => {
                     const maxStart = audio.duration > 12 ? audio.duration - 12 : 0;
                     audio.currentTime = Math.random() * maxStart;
 
-                    // Fade In
+                    // --- ULTRA-SMOOTH FADE IN ---
+                    let currentVol = 0;
                     fadeInterval = setInterval(() => {
-                        if (audio.volume < 0.95) {
-                            audio.volume += 0.05;
-                        } else {
+                        currentVol += 0.01; // Tiny 1% micro-steps
+                        if (currentVol >= 1) {
                             audio.volume = 1;
                             clearInterval(fadeInterval);
+                        } else {
+                            audio.volume = currentVol;
                         }
-                    }, 50);
+                    }, 10); // Super fast 10ms updates
 
-                    // Fade Out at 9 seconds
+                    // Start Fade Out at 9 seconds
                     previewTimeout = setTimeout(() => {
                         clearInterval(fadeInterval);
+                        
+                        // --- ULTRA-SMOOTH FADE OUT ---
+                        let fadeOutVol = audio.volume;
                         fadeInterval = setInterval(() => {
-                            if (audio.volume > 0.05) {
-                                audio.volume -= 0.05;
-                            } else {
+                            fadeOutVol -= 0.01; // Tiny 1% micro-steps
+                            if (fadeOutVol <= 0) {
                                 audio.volume = 0;
                                 clearInterval(fadeInterval);
                                 audio.pause();
+                            } else {
+                                audio.volume = fadeOutVol;
                             }
-                        }, 50);
+                        }, 10); // Super fast 10ms updates
+                        
                     }, 9000);
                 };
 
-                // Check if duration is loaded
                 if (audio.duration && !isNaN(audio.duration)) {
                     startPreview();
                 } else {
