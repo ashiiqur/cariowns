@@ -916,3 +916,52 @@ audio {
     color: #555;
     font-size: 1.2rem;
 }
+/* --- THREE DOTS DROPDOWN MENU --- */
+.options-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.link-dots {
+    padding: 5px 15px; /* Makes it easier to tap on phones */
+    color: #555;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.link-dots:hover {
+    color: #fff;
+}
+
+.dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 5px;
+    z-index: 2000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+    min-width: 110px;
+}
+
+/* This class gets added by JavaScript to show the menu */
+.dropdown-menu.show {
+    display: block;
+}
+
+.copy-action {
+    color: white;
+    font-size: 0.85rem;
+    padding: 10px 12px;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.2s ease;
+}
+
+.copy-action:hover {
+    background-color: #333;
+}
