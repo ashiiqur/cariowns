@@ -157,6 +157,62 @@
                 modal.style.display = "none";
             }
         }
+        // ==========================================
+        // COPY LINK DROPDOWN LOGIC
+        // ==========================================
+        
+        // 1. When clicking the dots, show the menu
+        document.querySelectorAll('.link-dots').forEach(dot => {
+            dot.addEventListener('click', function(event) {
+                event.preventDefault();  // Stops the music link from opening!
+                event.stopPropagation(); // Stops the click from bubbling up
+
+                // Close any other open menus first
+                document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    if (menu !== this.nextElementSibling) {
+                        menu.classList.remove('show');
+                    }
+                });
+
+                // Toggle the menu next to the dots we just clicked
+                const dropdown = this.nextElementSibling;
+                dropdown.classList.toggle('show');
+            });
+        });
+
+        // 2. When clicking "Copy Link"
+        document.querySelectorAll('.copy-action').forEach(btn => {
+            btn.addEventListener('click', function(event) {
+                event.preventDefault(); 
+                event.stopPropagation();
+
+                // Find the main link URL
+                const linkElement = this.closest('.link-item');
+                const url = linkElement.getAttribute('href');
+
+                // Copy to clipboard
+                navigator.clipboard.writeText(url).then(() => {
+                    // Show a cool "Copied!" message
+                    const originalText = this.innerText;
+                    this.innerText = "Copied!";
+                    this.style.color = "#39E09B"; // Turn text green
+                    
+                    // Reset back to normal after 1.5 seconds
+                    setTimeout(() => {
+                        this.innerText = originalText;
+                        this.style.color = "white";
+                        this.parentElement.classList.remove('show'); // Hide menu
+                    }, 1500);
+                });
+            });
+        });
+
+        // 3. If the user clicks anywhere else on the screen, close the menus
+        window.addEventListener('click', function() {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        });
     </script>
 </body>
 </html>
