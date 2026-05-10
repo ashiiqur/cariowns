@@ -90,6 +90,69 @@
         const menuBtn = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
         menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+        // --- NEW: RANDOM 10-SECOND PREVIEW LOGIC ---
+        document.querySelectorAll('audio').forEach(audio => {
+            let fadeInterval;
+            let previewTimeout;
+            
+            audio.addEventListener('play', function() {
+                if (audio.dataset.isPreviewing === 'true') return;
+                audio.pause();
+                
+                if (isNaN(audio.duration)) {
+                    audio.addEventListener('loadedmetadata', () => audio.play(), {once: true});
+                    return;
+                }
+
+                if (audio.duration <= 10) {
+                    audio.dataset.isPreviewing = 'true';
+                    audio.volume = 1;
+                    audio.play();
+                    return;
+                }
+
+                audio.dataset.isPreviewing = 'true';
+                const randomStart = Math.random() * (audio.duration - 10);
+                audio.currentTime = randomStart;
+                audio.volume = 0;
+                audio.play();
+
+                clearInterval(fadeInterval);
+                clearTimeout(previewTimeout);
+
+                // Fade In
+                let vol = 0;
+                fadeInterval = setInterval(() => {
+                    vol += 0.05;
+                    if (vol >= 1) { vol = 1; clearInterval(fadeInterval); }
+                    audio.volume = vol;
+                }, 50);
+
+                // Schedule Fade Out at 9 seconds
+                previewTimeout = setTimeout(() => {
+                    clearInterval(fadeInterval);
+                    let fadeOutVol = audio.volume;
+                    fadeInterval = setInterval(() => {
+                        fadeOutVol -= 0.05;
+                        if (fadeOutVol <= 0) {
+                            fadeOutVol = 0;
+                            clearInterval(fadeInterval);
+                            audio.pause();
+                            audio.dataset.isPreviewing = 'false'; 
+                        }
+                        audio.volume = fadeOutVol;
+                    }, 50);
+                }, 9000); 
+            });
+
+            audio.addEventListener('pause', () => {
+                if (!(audio.volume > 0 && audio.volume < 1 && audio.dataset.isPreviewing === 'true')) {
+                    clearInterval(fadeInterval);
+                    clearTimeout(previewTimeout);
+                    audio.dataset.isPreviewing = 'false';
+                }
+            });
+        });
     </script>
 </body>
 </html>
