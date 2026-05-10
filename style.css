@@ -989,13 +989,13 @@ audio {
 .copy-action:hover {
     background-color: #333;
 }
-/* --- AUDIO LOADING BAR WITH TRANSPARENT TEXT GAP --- */
+/* --- AUDIO LOADING BAR (HORIZONTAL) --- */
 .audio-wrapper {
     position: relative;
     display: block;
     width: 100%;
     line-height: 0;
-    padding-top: 18px; /* Creates room for the text */
+    padding-top: 8px; /* Creates safe space for the line above the player */
 }
 
 .audio-wrapper audio {
@@ -1003,68 +1003,41 @@ audio {
     width: 100%;
 }
 
-/* The container */
+/* The background track for the line */
 .audio-spinner {
     position: absolute;
-    top: 0;
+    top: 0; /* Sits at the very top of the wrapper */
     left: 0;
     width: 100%;
-    height: 12px;
+    height: 3px; /* Thickness of the line */
+    background-color: rgba(255, 66, 77, 0.15); /* Very faint red background */
+    border-radius: 4px;
+    overflow: hidden;
     display: none; 
     pointer-events: none; 
-    text-align: center;
-    z-index: 5;
-}
-
-/* The "Loading" text styling (NO BACKGROUND COLOR!) */
-.audio-spinner span {
-    position: relative;
-    z-index: 2;
-    background: transparent; /* Totally transparent now */
-    color: #ff424d;
-    font-size: 10px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    line-height: 12px;
-}
-
-/* MAGIC: This cuts a 70px invisible hole perfectly in the middle of the lines */
-.audio-spinner::before,
-.audio-spinner::after {
-    content: '';
-    position: absolute;
-    top: 6px;
-    height: 2px;
-    -webkit-mask-image: linear-gradient(to right, black calc(50% - 35px), transparent calc(50% - 35px), transparent calc(50% + 35px), black calc(50% + 35px));
-    mask-image: linear-gradient(to right, black calc(50% - 35px), transparent calc(50% - 35px), transparent calc(50% + 35px), black calc(50% + 35px));
-}
-
-/* The faint, static background track */
-.audio-spinner::before {
-    left: 0;
-    width: 100%;
-    background-color: rgba(255, 66, 77, 0.15);
-    z-index: 0; 
 }
 
 /* The moving red highlight */
 .audio-spinner::after {
+    content: '';
+    position: absolute;
+    top: 0;
     left: 0;
-    width: 30%;
-    background-color: #ff424d;
-    z-index: 1; 
-    animation: sweepBar 1.5s ease-in-out infinite;
+    height: 100%;
+    width: 30%; /* Length of the moving piece */
+    background-color: #ff424d; /* Solid red */
+    border-radius: 4px;
+    animation: sweepBar 1.5s ease-in-out infinite; /* Swipes back and forth */
 }
 
-/* The sweeping animation */
+/* The animation that makes it swipe left and right */
 @keyframes sweepBar {
     0% { left: -30%; }
     50% { left: 100%; }
     100% { left: -30%; }
 }
 
-/* Show it all when buffering */
+/* Show the line when buffering */
 .is-loading .audio-spinner {
     display: block;
 }
