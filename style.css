@@ -14,7 +14,6 @@ html, body {
     color: var(--text-color);
     line-height: 1.6;
     overflow-x: hidden; /* Prevents horizontal scrolling issues */
-    -webkit-tap-highlight-color: transparent;
 }
 
 /* Navigation Bar */
@@ -25,7 +24,7 @@ header {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #333;
-    position: relative; 
+    position: relative; /* Required so the mobile menu attaches properly */
 }
 
 .logo img {
@@ -114,7 +113,7 @@ footer a {
     .nav-links {
         display: none; 
         flex-direction: column; 
-        align-items: center; /* <--- THIS LINE  IS FOR MOBILE CENTERING */
+        align-items: center; /* <--- THIS IS THE MAGIC LINE FOR MOBILE CENTERING */
         position: absolute; 
         top: 100%; 
         left: 0;
@@ -192,7 +191,7 @@ audio {
 }
 /* Styling for the clickable track titles */
 .music-card h3 a {
-    color: inherit; /* Keeps the red color I already set for the h3 */
+    color: inherit; /* Keeps the red color you already set for the h3 */
     text-decoration: none; /* Removes the default blue underline */
     transition: opacity 0.3s ease; /* Smooth transition for the hover effect */
 }
@@ -200,7 +199,7 @@ audio {
 /* Adds a nice effect when they hover over the title */
 .music-card h3 a:hover {
     opacity: 0.7; /* Makes it slightly transparent to show it's clickable */
-    text-decoration: underline; 
+    text-decoration: underline; /* Optional: adds a neat underline on hover */
 }
 /* Smooth transition for the image */
 .music-card a .album-art {
@@ -240,9 +239,10 @@ audio {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.5s ease; /* Optional: sets up a hover effect */
 }
 
+/* Optional: Make the art pop up slightly when you hover over it! */
 .gallery-item:hover img {
     transform: scale(1.1);
 }
@@ -269,13 +269,14 @@ audio {
 }
 /* Styling for text links inside paragraphs */
 .text-link {
-    color: var(--text-color); 
+    color: var(--text-color); /* Keeps it white to match the paragraph */
     text-decoration: underline; /* Adds the underline */
 }
 
 .text-link:hover {
     font-weight: bold; /* Makes it bold on hover */
-    color: var(--accent-color); 
+    color: var(--accent-color); /* Optional: turns it red on hover for extra flair! Remove this line if you want it to stay white */
+}
 /* About Page Contact Section */
 .contact-section {
     margin-top: 50px;
@@ -294,7 +295,7 @@ audio {
     transition: all 0.3s ease;
 }
 
-/* Fills the button with red accent color when hovered */
+/* Fills the button with your red accent color when hovered */
 .email-btn:hover {
     background-color: var(--accent-color);
     color: #ffffff; /* Ensures the text stays white */
@@ -320,7 +321,7 @@ audio {
 
 /* Green Linktree Button */
 .linktree-btn {
-    background-color: #39E09B; 
+    background-color: #39E09B; /* A nice Linktree-style vibrant green */
     color: #000000; /* Dark text reads best on the green */
     border: 2px solid #39E09B;
 }
@@ -330,7 +331,7 @@ audio {
     color: #39E09B; /* Turns text green when hovered */
 }
 
-/* About Button */
+/* About Button (Matches your red accent!) */
 .about-btn {
     background-color: transparent;
     color: var(--text-color);
@@ -475,7 +476,7 @@ audio {
 /* --- BATTLE SCREEN FOR BOTH GAMES --- */
 .battle-screen {
     width: 100%;
-    height: 90px; 
+    height: 90px; /* INCREASED vertical size! */
     background-color: #0a0a0a; 
     border: 2px solid #333; 
     border-radius: 5px;
@@ -512,7 +513,7 @@ audio {
     background-color: #555;
     color: #ffffff;
 }
-/* Makes the oldest Tic-Tac-Toe piece fade out so players know it's going to disappear */
+/* Makes the oldest Tic-Tac-Toe piece fade out so you know it's going to disappear */
 .cell.fading {
     opacity: 0.3;
     transform: scale(0.85); /* Shrinks it slightly */
@@ -537,7 +538,7 @@ audio {
 /* --- NEW BULLET ANIMATION SCREEN --- */
 .bullet-screen {
     width: 100%;
-    /* THIS HEIGHT PUSHES THE HEALTH BARS DOWN! Important Adjustment of this number is needed if it doesn't align perfectly */
+    /* ⬇️ THIS HEIGHT PUSHES THE HEALTH BARS DOWN! Adjust this number if it doesn't align perfectly ⬇️ */
     height: 185px; 
     background-color: #050505; /* Extra dark background for the "firing range" */
     border: 2px solid #333;
@@ -562,6 +563,7 @@ audio {
     background-color: #ff4c4c;
     box-shadow: 0 0 8px #ff4c4c;
     top: 40%;
+    /* Notice we removed the infinite animation here! */
 }
 
 /* Boss Bullet 1 (Hidden by default) */
@@ -753,7 +755,7 @@ audio {
 .upload-date {
     font-family: monospace;
     font-size: 0.7rem;
-    color: #00a8ff; /* Using a blue tint: glitch theme */
+    color: #00a8ff; /* Using a blue tint to match your glitch theme */
     margin-top: 8px;
     text-shadow: 1px 1px 0px #ff0000; /* Subtle glitch shadow */
     
