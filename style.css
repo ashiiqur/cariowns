@@ -14,6 +14,7 @@ html, body {
     color: var(--text-color);
     line-height: 1.6;
     overflow-x: hidden; /* Prevents horizontal scrolling issues */
+    -webkit-tap-highlight-color: transparent;
 }
 
 /* Navigation Bar */
