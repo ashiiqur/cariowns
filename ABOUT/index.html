@@ -38,7 +38,7 @@
     <div style="max-width: 800px; margin: 0 auto; text-align: center; color: var(--text-color);">
         <h2 style="font-size: 2rem; margin-bottom: 20px; color: var(--accent-color);">About cariowns</h2>
         
-        <!-- Optional: Add a profile picture here later! -->
+        <!-- Profile picture here later! -->
         <!-- <img src="assets/profile.jpg" style="width: 200px; border-radius: 50%; margin-bottom: 20px;"> -->
         
         <p style="font-size: 1.2rem; line-height: 1.6; margin-bottom: 15px;">
@@ -88,7 +88,7 @@
         </div>
     </div>
 </main>
-
+<!-- HTML Code of POP UP Window with LINKS -->
     <div id="link-modal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
@@ -212,6 +212,7 @@
                         </div>
                     </div>
                 </a>
+<!-- HTML Code of Social Media LINKS -->
             </div>
             <h3 class="modal-title" style="margin-top: 35px;">Social Media</h3>
             
@@ -350,7 +351,6 @@
         const navLinks = document.querySelector('.nav-links');
         menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
 
-        // Get elements
         const modal = document.getElementById('link-modal');
         const openBtn = document.getElementById('open-links-btn');
         const closeBtn = document.querySelector('.close-modal');
@@ -364,7 +364,6 @@
             document.body.classList.add('body-no-scroll');
             modal.style.display = "flex";
             
-            // MAGIC: Add a "fake" step to the phone's history
             window.history.pushState({ modalOpen: true }, "", "");
         }
 
@@ -376,7 +375,7 @@
             modal.style.display = "none";
         }
 
-        // 3. When the user clicks the 'X' or the dark background
+        // 3.Clicks the 'X' or the dark background
         function closeFromUI() {
             if (modal.style.display === "flex") {
                 closeModal();
@@ -392,15 +391,13 @@
             }
         }
 
-        // 4. MAGIC: Intercept the phone's hardware Back Button/Swipe
+        // 4.Intercept the phone's hardware Back Button/Swipe
         window.addEventListener('popstate', function() {
             if (modal.style.display === "flex") {
                 closeModal(); // Hide the modal instead of leaving the page!
             }
         });
-        // ==========================================
         // COPY LINK DROPDOWN LOGIC
-        // ==========================================
         
         // 1. When clicking the dots, show the menu
         document.querySelectorAll('.link-dots').forEach(dot => {
@@ -421,7 +418,7 @@
             });
         });
 
-        // 2. When clicking "Copy Link"
+        // 2. Clicking "Copy Link"
         document.querySelectorAll('.copy-action').forEach(btn => {
             btn.addEventListener('click', function(event) {
                 event.preventDefault(); 
@@ -433,7 +430,7 @@
 
                 // Copy to clipboard
                 navigator.clipboard.writeText(url).then(() => {
-                    // Show a cool "Copied!" message
+                    // A cool "Copied!" message
                     const originalText = this.innerText;
                     this.innerText = "Copied!";
                     this.style.color = "#39E09B"; // Turn text green
@@ -448,7 +445,7 @@
             });
         });
 
-        // 3. If the user clicks anywhere else on the screen, close the menus
+        // 3. Clicks anywhere else on the screen for close the menus
         window.addEventListener('click', function() {
             document.querySelectorAll('.dropdown-menu').forEach(menu => {
                 menu.classList.remove('show');
