@@ -95,7 +95,7 @@
             menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
         }
 
-        // 2. Final Optimized Web Audio (No Loop)
+        // 2. Audio (No Loop)
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         const audioCtx = new AudioCtx();
 
@@ -132,8 +132,6 @@
                 gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
 
                 const startPreview = () => {
-                    // --- SAFETY FIX: ALWAYS LEAVE 12 SECONDS ---
-                    // This prevents the song from ending before the 10s preview is up.
                     const maxStart = audio.duration > 12 ? audio.duration - 12 : 0;
                     audio.currentTime = Math.random() * maxStart;
 
