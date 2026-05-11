@@ -90,9 +90,7 @@
         const menuBtn = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
         menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
-// ==========================================
         // 1. GLOBAL PAGE UPDATE TIME (Automatic)
-        // ==========================================
         // This asks the server when the website itself was last updated
         fetch(window.location.href, { method: 'HEAD' })
             .then(response => {
@@ -109,20 +107,18 @@
                 document.getElementById('global-last-updated').innerHTML = "GALLERY UPDATED: LIVE";
             });
 
-        // ==========================================
         // 2. INDIVIDUAL ARTWORK DATES (Manual)
-        // ==========================================
         document.querySelectorAll('.gallery-item').forEach(item => {
             const dateDisplay = item.querySelector('.upload-date');
             
-            // This looks for the data-time="..." you type in the HTML
+            // This looks for the data-time="..." I type in the HTML
             const manualTime = item.getAttribute('data-time'); 
             
             if (dateDisplay) {
                 if (manualTime) {
                     dateDisplay.innerHTML = `UPLOAD TIME: ${manualTime}`;
                 } else {
-                    // Friendly reminder if you forget to add the data-time!
+                    // Friendly reminder if I forget to add the data-time!
                     dateDisplay.innerHTML = "UPLOAD TIME: DATE NOT SET"; 
                 }
             }
