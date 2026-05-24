@@ -1048,3 +1048,36 @@ audio {
     margin-bottom: 40px; /* Gives space before the music cards start */
     opacity: 0.8; /* Makes it look a little sleek and muted */
 }
+/* By default, hide the vines completely (Mobile/Tablet view) */
+.vine-container {
+  display: none;
+}
+
+/* ONLY apply these styles on Computer/Desktop screens (Screens wider than 1024px) */
+@media (min-width: 1025px) {
+  .vine-container {
+    display: block; /* Make them visible on desktop */
+    position: fixed;
+    top: 0;
+    width: 80px; 
+    height: 100vh;
+    pointer-events: none; 
+    z-index: 1; 
+  }
+
+  .left-vine { left: 10px; }
+  .right-vine { right: 10px; }
+
+  .vine-container svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .vine-container path {
+    fill: none;
+    stroke: #ffffff; 
+    stroke-width: 3;
+    stroke-linecap: round;
+    opacity: 0.6; 
+  }
+}
