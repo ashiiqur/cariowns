@@ -25,16 +25,26 @@
 </head>
 <body>
 
-    <!-- Left and Right Growing Creeper Vines -->
+   <!-- Left and Right Growing Organic Creeper Vines -->
 <div class="vine-container left-vine">
-  <svg viewBox="0 0 100 800" preserveAspectRatio="none">
-    <path id="leftVinePath" d="M 10,-20 Q 30,100 15,200 T 40,400 T 10,600 T 50,820" />
+  <svg viewBox="0 0 120 800" preserveAspectRatio="none">
+    <!-- Main Stem -->
+    <path class="vine-path" id="leftVinePath" d="M 10,-20 Q 40,150 15,300 T 50,550 T 15,820" />
+    <!-- Leaf Branches -->
+    <path class="vine-path" d="M 22,100 Q 45,95 55,110 M 55,110 Q 60,100 50,95 Z M 16,210 Q -5,215 -10,200 M -10,200 Q -15,210 -5,215 Z" />
+    <path class="vine-path" d="M 33,400 Q 60,390 70,410 M 70,410 Q 75,400 65,395 Z M 32,500 Q 5,510 0,490 M 0,490 Q -5,500 5,505 Z" />
+    <path class="vine-path" d="M 28,680 Q 55,685 60,705 M 60,705 Q 65,690 50,685 Z" />
   </svg>
 </div>
 
 <div class="vine-container right-vine">
-  <svg viewBox="0 0 100 800" preserveAspectRatio="none">
-    <path id="rightVinePath" d="M 90,-20 Q 70,100 85,200 T 60,400 T 90,600 T 50,820" />
+  <svg viewBox="0 0 120 800" preserveAspectRatio="none">
+    <!-- Main Stem -->
+    <path class="vine-path" id="rightVinePath" d="M 110,-20 Q 80,150 105,300 T 70,550 T 105,820" />
+    <!-- Leaf Branches -->
+    <path class="vine-path" d="M 98,100 Q 75,95 65,110 M 65,110 Q 60,100 70,95 Z M 104,210 Q 125,215 130,200 M 130,200 Q 135,210 125,215 Z" />
+    <path class="vine-path" d="M 87,400 Q 60,390 50,410 M 50,410 Q 45,400 55,395 Z M 88,500 Q 115,510 120,490 M 120,490 Q 125,500 115,505 Z" />
+    <path class="vine-path" d="M 92,680 Q 65,685 60,705 M 60,705 Q 55,690 70,685 Z" />
   </svg>
 </div>
     <header>
@@ -650,32 +660,31 @@
             }
         });
   window.addEventListener('DOMContentLoaded', () => {
-    // Safety Check: If the screen is smaller than a desktop, stop running the code
-    if (window.innerWidth <= 1024) return;
+  if (window.innerWidth <= 1024) return;
 
-    const leftPath = document.getElementById('leftVinePath');
-    const rightPath = document.getElementById('rightVinePath');
+  // Track all individual paths (stems, branches, and leaves)
+  const vinePaths = document.querySelectorAll('.vine-path');
+  const pathData = [];
 
-    const leftLength = leftPath.getTotalLength();
-    const rightLength = rightPath.getTotalLength();
+  // Initialize lengths and offsets for every element
+  vinePaths.forEach(path => {
+    const length = path.getTotalLength();
+    path.style.strokeDasharray = length + ' ' + length;
+    path.style.strokeDashoffset = length;
+    pathData.push({ element: path, length: length });
+  });
 
-    leftPath.style.strokeDasharray = leftLength + ' ' + leftLength;
-    leftPath.style.strokeDashoffset = leftLength;
-    
-    rightPath.style.strokeDasharray = rightLength + ' ' + rightLength;
-    rightPath.style.strokeDashoffset = rightLength;
+  window.addEventListener('scroll', () => {
+    const scrollPercent = (document.documentElement.scrollTop + document.body.scrollTop) / 
+                          (document.documentElement.scrollHeight - document.documentElement.clientHeight);
 
-    window.addEventListener('scroll', () => {
-      const scrollPercent = (document.documentElement.scrollTop + document.body.scrollTop) / 
-                            (document.documentElement.scrollHeight - document.documentElement.clientHeight);
-
-      const drawLeft = leftLength * (1 - scrollPercent);
-      const drawRight = rightLength * (1 - scrollPercent);
-
-      leftPath.style.strokeDashoffset = Math.max(0, drawLeft);
-      rightPath.style.strokeDashoffset = Math.max(0, drawRight);
+    // Animate every path item in sync with your scroll tracking
+    pathData.forEach(item => {
+      const drawLength = item.length * (1 - scrollPercent);
+      item.element.style.strokeDashoffset = Math.max(0, drawLength);
     });
   });
+});
     </script>
 </body>
 </html>
