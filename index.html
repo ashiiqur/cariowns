@@ -25,28 +25,6 @@
 </head>
 <body>
 
-   <!-- Left and Right Growing Organic Creeper Vines -->
-<div class="vine-container left-vine">
-  <svg viewBox="0 0 120 800" preserveAspectRatio="none">
-    <!-- Main Stem -->
-    <path class="vine-path" id="leftVinePath" d="M 10,-20 Q 40,150 15,300 T 50,550 T 15,820" />
-    <!-- Leaf Branches -->
-    <path class="vine-path" d="M 22,100 Q 45,95 55,110 M 55,110 Q 60,100 50,95 Z M 16,210 Q -5,215 -10,200 M -10,200 Q -15,210 -5,215 Z" />
-    <path class="vine-path" d="M 33,400 Q 60,390 70,410 M 70,410 Q 75,400 65,395 Z M 32,500 Q 5,510 0,490 M 0,490 Q -5,500 5,505 Z" />
-    <path class="vine-path" d="M 28,680 Q 55,685 60,705 M 60,705 Q 65,690 50,685 Z" />
-  </svg>
-</div>
-
-<div class="vine-container right-vine">
-  <svg viewBox="0 0 120 800" preserveAspectRatio="none">
-    <!-- Main Stem -->
-    <path class="vine-path" id="rightVinePath" d="M 110,-20 Q 80,150 105,300 T 70,550 T 105,820" />
-    <!-- Leaf Branches -->
-    <path class="vine-path" d="M 98,100 Q 75,95 65,110 M 65,110 Q 60,100 70,95 Z M 104,210 Q 125,215 130,200 M 130,200 Q 135,210 125,215 Z" />
-    <path class="vine-path" d="M 87,400 Q 60,390 50,410 M 50,410 Q 45,400 55,395 Z M 88,500 Q 115,510 120,490 M 120,490 Q 125,500 115,505 Z" />
-    <path class="vine-path" d="M 92,680 Q 65,685 60,705 M 60,705 Q 55,690 70,685 Z" />
-  </svg>
-</div>
     <header>
         <div class="logo">
             <!-- Logo and Text aligned perfectly -->
@@ -659,32 +637,6 @@
                 if (keyElement) keyElement.classList.remove('active');
             }
         });
-  window.addEventListener('DOMContentLoaded', () => {
-  if (window.innerWidth <= 1024) return;
-
-  // Track all individual paths (stems, branches, and leaves)
-  const vinePaths = document.querySelectorAll('.vine-path');
-  const pathData = [];
-
-  // Initialize lengths and offsets for every element
-  vinePaths.forEach(path => {
-    const length = path.getTotalLength();
-    path.style.strokeDasharray = length + ' ' + length;
-    path.style.strokeDashoffset = length;
-    pathData.push({ element: path, length: length });
-  });
-
-  window.addEventListener('scroll', () => {
-    const scrollPercent = (document.documentElement.scrollTop + document.body.scrollTop) / 
-                          (document.documentElement.scrollHeight - document.documentElement.clientHeight);
-
-    // Animate every path item in sync with your scroll tracking
-    pathData.forEach(item => {
-      const drawLength = item.length * (1 - scrollPercent);
-      item.element.style.strokeDashoffset = Math.max(0, drawLength);
-    });
-  });
-});
     </script>
 </body>
 </html>
