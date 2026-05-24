@@ -25,6 +25,18 @@
 </head>
 <body>
 
+    <!-- Left and Right Growing Creeper Vines -->
+<div class="vine-container left-vine">
+  <svg viewBox="0 0 100 800" preserveAspectRatio="none">
+    <path id="leftVinePath" d="M 10,-20 Q 30,100 15,200 T 40,400 T 10,600 T 50,820" />
+  </svg>
+</div>
+
+<div class="vine-container right-vine">
+  <svg viewBox="0 0 100 800" preserveAspectRatio="none">
+    <path id="rightVinePath" d="M 90,-20 Q 70,100 85,200 T 60,400 T 90,600 T 50,820" />
+  </svg>
+</div>
     <header>
         <div class="logo">
             <!-- Logo and Text aligned perfectly -->
@@ -637,6 +649,33 @@
                 if (keyElement) keyElement.classList.remove('active');
             }
         });
+  window.addEventListener('DOMContentLoaded', () => {
+    // Safety Check: If the screen is smaller than a desktop, stop running the code
+    if (window.innerWidth <= 1024) return;
+
+    const leftPath = document.getElementById('leftVinePath');
+    const rightPath = document.getElementById('rightVinePath');
+
+    const leftLength = leftPath.getTotalLength();
+    const rightLength = rightPath.getTotalLength();
+
+    leftPath.style.strokeDasharray = leftLength + ' ' + leftLength;
+    leftPath.style.strokeDashoffset = leftLength;
+    
+    rightPath.style.strokeDasharray = rightLength + ' ' + rightLength;
+    rightPath.style.strokeDashoffset = rightLength;
+
+    window.addEventListener('scroll', () => {
+      const scrollPercent = (document.documentElement.scrollTop + document.body.scrollTop) / 
+                            (document.documentElement.scrollHeight - document.documentElement.clientHeight);
+
+      const drawLeft = leftLength * (1 - scrollPercent);
+      const drawRight = rightLength * (1 - scrollPercent);
+
+      leftPath.style.strokeDashoffset = Math.max(0, drawLeft);
+      rightPath.style.strokeDashoffset = Math.max(0, drawRight);
+    });
+  });
     </script>
 </body>
 </html>
