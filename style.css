@@ -1048,3 +1048,30 @@ audio {
     margin-bottom: 40px; /* Gives space before the music cards start */
     opacity: 0.8; /* Makes it look a little sleek and muted */
 }
+/* Container to center the button */
+.button-container {
+  text-align: center;
+  margin-top: 30px; /* Adjust this to add more or less space above the button */
+}
+
+/* Main button styling */
+.theme-button {
+  display: inline-block;
+  padding: 12px 28px;
+  background-color: transparent;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border: 2px solid #ff3333; /* Red border to match your active nav link */
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect when the mouse goes over the button */
+.theme-button:hover {
+  background-color: #ff3333; /* Fills the button with red */
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(255, 51, 51, 0.4); /* Adds a subtle red glow */
+}
