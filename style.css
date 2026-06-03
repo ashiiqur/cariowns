@@ -1075,3 +1075,14 @@ audio {
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(255, 51, 51, 0.4); /* Adds a subtle red glow */
 }
+.glitch-title {
+  font-size: 3.5rem; /* Adjust this number if you need it slightly bigger or smaller */
+  font-weight: 900; /* Makes it nice and thick */
+  color: #ffffff;
+  letter-spacing: 2px;
+  /* This creates the red and blue glitch shadows */
+  text-shadow: 
+    -3px 0px 0px rgba(255, 0, 0, 0.8), 
+     3px 0px 0px rgba(0, 255, 255, 0.8);
+  margin-bottom: 10px;
+}
