@@ -1055,15 +1055,15 @@ audio {
 }
 
 /* TOOLSSSSSSSSSSSSSSSSSSSSSSSSSSS */
-/* 1. KEYFRAMES FOR IDLE BEACON PULSE (Keeps them clicking) */
+/* 1. The Idle Pulse (Keeps the button feeling alive when not hovered) */
 @keyframes beaconPulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(255, 51, 51, 0.7);
+    box-shadow: 0 0 0 0 rgba(255, 51, 51, 0.5);
     transform: scale(1);
   }
   70% {
     box-shadow: 0 0 0 15px rgba(255, 51, 51, 0);
-    transform: scale(1.02); /* Slight growth */
+    transform: scale(1.02);
   }
   100% {
     box-shadow: 0 0 0 0 rgba(255, 51, 51, 0);
@@ -1071,25 +1071,7 @@ audio {
   }
 }
 
-/* 2. KEYFRAMES FOR NEW HOVER TEXT GLITCH (No vibration) */
-@keyframes hoverTextGlitch {
-  0% {
-    /* No shadow at start */
-    text-shadow: 0 0 0 rgba(0, 0, 0, 0);
-  }
-  /* Rapid flickering chromatic split */
-  20%, 80% {
-    text-shadow: -2px 0 0 rgba(0, 255, 255, 0.9), 2px 0 0 rgba(255, 0, 0, 0.9);
-  }
-  40%, 60% {
-    text-shadow: 2px 0 0 rgba(0, 255, 255, 0.9), -2px 0 0 rgba(255, 0, 0, 0.9);
-  }
-  100% {
-    text-shadow: -1px 0 0 rgba(0, 255, 255, 0.8), 1px 0 0 rgba(255, 0, 0, 0.8);
-  }
-}
-
-/* --- MAIN BUTTON STYLING (Same as reference image_13.png) --- */
+/* --- MAIN BUTTON STYLING --- */
 .theme-button {
   display: inline-block;
   padding: 12px 28px;
@@ -1101,28 +1083,29 @@ audio {
   letter-spacing: 1px;
   border: 2px solid #ff3333;
   border-radius: 4px;
-  transition: all 0.2s ease; /* Fast transition */
   
-  /* Apply idle pulse animation */
+  /* The secret to the smoothness: a custom cubic-bezier timing curve */
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); 
+  
   animation: beaconPulse 2.5s infinite; 
 }
 
-/* --- UPDATED HOVER ANIMATION (NEW) --- */
+/* --- THE SMOOTH HOVER EFFECT --- */
 .theme-button:hover {
-  /* Stop the idle pulse */
-  animation: none; 
+  animation: none; /* Turn off the idle pulse */
   
-  /* Instantly make the background red and scale slightly UP */
   background-color: #ff3333;
   color: #ffffff;
-  transform: scale(1.05); /* Slight static zoom */
   
-  /* Intense, rapid flicker glitch effect on the word "Visualizer" */
-  animation: hoverTextGlitch 0.1s infinite;
+  /* Smoothly stretches the text apart */
+  letter-spacing: 4px; 
   
-  /* Solid intense red glow */
-  box-shadow: 0 0 20px rgba(255, 51, 51, 0.9);
+  /* Gently lifts and grows the button */
+  transform: scale(1.06) translateY(-2px); 
   
-  /* Make sure the text color stays bright over the glitch */
-  -webkit-text-fill-color: white;
+  /* Creates a smooth, deep glowing shadow below it */
+  box-shadow: 0 10px 25px rgba(255, 51, 51, 0.6); 
+  
+  /* Adds a soft white glow to the letters themselves */
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
 }
