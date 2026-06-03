@@ -1054,6 +1054,32 @@ audio {
   margin-top: 30px; /* Adjust this to add more or less space above the button */
 }
 
+/* TOOLSSSSSSSSSSSSSSSSSSSSSSSSSSS */
+/* 1. The Idle Animation (Calls attention) */
+@keyframes beaconPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 51, 51, 0.6);
+    transform: scale(1);
+  }
+  70% {
+    /* Rings expand outward and fade away */
+    box-shadow: 0 0 0 15px rgba(255, 51, 51, 0);
+    transform: scale(1.03); /* Button slightly grows */
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 51, 51, 0);
+    transform: scale(1);
+  }
+}
+
+/* 2. The Hover Animation (Visualizer Bass vibration) */
+@keyframes bassVibrate {
+  0%, 100% { transform: scale(1.05) rotate(0deg); }
+  25% { transform: scale(1.05) rotate(-1deg); }
+  50% { transform: scale(1.05) rotate(1deg); }
+  75% { transform: scale(1.05) rotate(-1deg); }
+}
+
 /* Main button styling */
 .theme-button {
   display: inline-block;
@@ -1064,14 +1090,20 @@ audio {
   font-size: 16px;
   font-weight: bold;
   letter-spacing: 1px;
-  border: 2px solid #ff3333; /* Red border to match your active nav link */
+  border: 2px solid #ff3333;
   border-radius: 4px;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  
+  /* Applies the idle pulsing animation indefinitely */
+  animation: beaconPulse 2s infinite; 
 }
 
-/* Hover effect when the mouse goes over the button */
+/* Hover effect */
 .theme-button:hover {
-  background-color: #ff3333; /* Fills the button with red */
+  background-color: #ff3333;
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(255, 51, 51, 0.4); /* Adds a subtle red glow */
+  
+  /* Switches to the fast vibrating animation */
+  animation: bassVibrate 0.2s infinite; 
+  box-shadow: 0 0 15px rgba(255, 51, 51, 0.8); /* Solid glowing aura */
 }
