@@ -1099,3 +1099,29 @@ audio {
   box-shadow: 0 4px 12px rgba(255, 51, 51, 0.4); 
   transform: scale(1); /* Ensures it rests flat */
 }
+
+/* TEXTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT */
+/* Container for the typing text */
+.typewriter-container {
+  text-align: center;
+  margin-top: 50px; /* Pushes it down below the button */
+  font-size: 24px; /* A little big */
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 2px;
+  min-height: 35px; /* Prevents the page from jumping up and down */
+}
+
+/* The blinking cursor effect */
+.cursor {
+  display: inline-block;
+  width: 3px; /* Thickness of the cursor */
+  background-color: #ff3333; /* Red to match your theme */
+  margin-left: 4px;
+  animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+  from, to { background-color: transparent; }
+  50% { background-color: #ff3333; }
+}
