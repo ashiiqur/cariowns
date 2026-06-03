@@ -40,9 +40,12 @@
     <p>Custom tools created by ashiqur.</p>
 
     <div class="button-container">
-      <a href="https://visualizer.cariowns.com" class="theme-button" target="_blank" rel="noopener noreferrer">
+        <a href="https://visualizer.cariowns.com" class="theme-button" target="_blank" rel="noopener noreferrer">
         Visualizer
       </a>
+    </div>
+       <div class="typewriter-container">
+       <span id="typewriter-text"></span><span class="cursor">&nbsp;</span>
     </div>
 </main>
     <footer>
@@ -54,6 +57,41 @@
         const menuBtn = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
         menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+
+       window.addEventListener('DOMContentLoaded', () => {
+    const textElement = document.getElementById('typewriter-text');
+    const words = ["cariowns", "Coming Soon More"];
+    
+    let wordIndex = 0;
+    let isDeleting = false;
+    let currentText = '';
+    
+    function type() {
+      const fullWord = words[wordIndex];
+      if (isDeleting) {
+        currentText = fullWord.substring(0, currentText.length - 1); 
+      } else {
+        currentText = fullWord.substring(0, currentText.length + 1);
+      }
+
+      textElement.textContent = currentText;
+      let typeSpeed = isDeleting ? 75 : 150;
+      if (!isDeleting && currentText === fullWord) {
+        typeSpeed = 2000; 
+        isDeleting = true; 
+      } 
+      else if (isDeleting && currentText === '') {
+        isDeleting = false;
+        wordIndex++;
+        if (wordIndex === words.length) {
+          wordIndex = 0;
+        }
+        typeSpeed = 500; 
+      }
+      setTimeout(type, typeSpeed);
+    }
+    type();
+  });
     </script>
 </body>
 </html>
