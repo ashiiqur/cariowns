@@ -185,6 +185,20 @@
         <p>&copy; 2026 cariowns. All rights reserved.</p>
     </footer>
 
+    <!-- New Release Popup (bottom-right). Content is filled in by JS below
+         from the RELEASE config, and only shown during its configured window. -->
+    <div id="release-popup" class="release-popup">
+        <button class="release-popup-close" aria-label="Close">&times;</button>
+        <a href="MUSIC" class="release-popup-link">
+            <img class="release-popup-art" src="" alt="">
+            <div class="release-popup-details">
+                <span class="release-popup-tag"></span>
+                <h3 class="release-popup-title"></h3>
+                <p class="release-popup-date"></p>
+            </div>
+        </a>
+    </div>
+
     <!-- Hamburger Menu Script -->
     <script>
         const menuBtn = document.querySelector('.menu-toggle');
@@ -699,5 +713,9 @@
             }
         });
     </script>
+
+    <!-- New Release Popup logic — see release-popup.js. Edit the RELEASE
+         object at the top of that file for each new single/album drop. -->
+    <script src="release-popup.js"></script>
 </body>
 </html>
