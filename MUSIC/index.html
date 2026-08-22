@@ -6,9 +6,11 @@
     <title>cariowns | Music</title>
 
 <meta name="description" content="Listen to the newest music releases from cariowns, including Lightning On, Re Ambient, and Nostalgic World.">
+<meta name="author" content="cariowns">
 <link rel="canonical" href="https://cariowns.xyz/MUSIC/">
     
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="cariowns">
 <meta property="og:url" content="https://cariowns.xyz/MUSIC/">
 <meta property="og:title" content="cariowns | Music">
 <meta property="og:description" content="Listen to the newest music releases from cariowns, including Lightning On, Re Ambient, and Nostalgic World.">
@@ -34,6 +36,51 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script src="../theme-color.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MusicGroup",
+  "name": "cariowns",
+  "url": "https://cariowns.xyz/MUSIC/",
+  "genre": "Electronic",
+  "track": [
+    {
+      "@type": "MusicRecording",
+      "name": "Lightning on",
+      "byArtist": { "@type": "MusicGroup", "name": "cariowns" },
+      "image": "https://cariowns.xyz/MUSIC/assets/album1.jpg",
+      "url": "https://open.spotify.com/track/6NTYOHNXNfSJZSmyRmxbCL",
+      "sameAs": [
+        "https://youtu.be/xAbWwY3EMRY",
+        "https://open.spotify.com/track/6NTYOHNXNfSJZSmyRmxbCL"
+      ]
+    },
+    {
+      "@type": "MusicRecording",
+      "name": "Re Ambient",
+      "byArtist": { "@type": "MusicGroup", "name": "cariowns" },
+      "image": "https://cariowns.xyz/MUSIC/assets/album2.jpg",
+      "url": "https://open.spotify.com/track/32Ig7cbBcScWVLHMR0glwS",
+      "sameAs": [
+        "https://youtu.be/vawfNlpPcP4",
+        "https://open.spotify.com/track/32Ig7cbBcScWVLHMR0glwS"
+      ]
+    },
+    {
+      "@type": "MusicRecording",
+      "name": "Nostalgic World",
+      "byArtist": { "@type": "MusicGroup", "name": "cariowns" },
+      "image": "https://cariowns.xyz/MUSIC/assets/album3.jpg",
+      "url": "https://open.spotify.com/track/2kKL4i97t2hQxXDT2SbuKP",
+      "sameAs": [
+        "https://youtu.be/ld0bCSwd95Q",
+        "https://open.spotify.com/track/2kKL4i97t2hQxXDT2SbuKP"
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -72,7 +119,7 @@
             <!-- Track 1 -->
             <div class="music-card">
                 <a href="https://youtu.be/xAbWwY3EMRY?si=q1qsgA9QsZTN8G-s" target="_blank">
-                <img src="assets/album1.jpg" alt="Lightning on by cariowns" class="album-art">
+                <img src="assets/album1.jpg" alt="Lightning on by cariowns" title="Lightning on - a song by cariowns" class="album-art" loading="lazy">
                 </a>
                 <h3><a href="https://open.spotify.com/track/6NTYOHNXNfSJZSmyRmxbCL?si=832e7a330f4f423a" target="_blank">Lightning on</a></h3>
                 <p>Produced by cariowns</p>
@@ -85,7 +132,7 @@
             <!-- Track 2 -->
             <div class="music-card">
                 <a href="https://youtu.be/vawfNlpPcP4?si=dpzF7ecsWZWzGM0Z" target="_blank">
-                <img src="assets/album2.jpg" alt="Re Ambient by cariowns" class="album-art">
+                <img src="assets/album2.jpg" alt="Re Ambient by cariowns" title="Re Ambient - a song by cariowns" class="album-art" loading="lazy">
                 </a>
                 <h3><a href="https://open.spotify.com/track/32Ig7cbBcScWVLHMR0glwS?si=b060c5a7d38941a2" target="_blank">Re Ambient</a></h3>
                 <p>Produced by cariowns</p>
@@ -98,7 +145,7 @@
             <!-- Track 3 -->
             <div class="music-card">
                 <a href="https://youtu.be/ld0bCSwd95Q?si=HuZsj26H9tF24Ss3" target="_blank">
-                <img src="assets/album3.jpg" alt="Nostalgic World by cariowns" class="album-art">
+                <img src="assets/album3.jpg" alt="Nostalgic World by cariowns" title="Nostalgic World - a song by cariowns" class="album-art" loading="lazy">
                 </a>
                 <h3><a href="https://open.spotify.com/track/2kKL4i97t2hQxXDT2SbuKP?si=52e7b491db454c0b" target="_blank">Nostalgic World</a></h3>
                 <p>Produced by cariowns</p>
@@ -123,7 +170,30 @@
             menuBtn.addEventListener('click', () => { navLinks.classList.toggle('active'); });
         }
 
-        // 2. Audio (No Loop)
+        // 2. DEFAULT SVG PREVIEW (Fallback)
+        // If an album cover is missing or fails to load, generate a
+        // branded SVG placeholder on the fly, labeled with that track's own title.
+        function svgPlaceholder(label) {
+            const safeLabel = String(label).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            const svg = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+                    <rect width="500" height="500" fill="#0f0f0f"/>
+                    <rect x="4" y="4" width="492" height="492" fill="none" stroke="#2a2a2a" stroke-width="2"/>
+                    <path d="M225 150v120a35 35 0 1 0 20 32V180l90-20v100a35 35 0 1 0 20 32V130l-130 28z" fill="none" stroke="#ff424d" stroke-width="6" stroke-linejoin="round"/>
+                    <text x="250" y="345" font-family="Segoe UI, Tahoma, Verdana, sans-serif" font-size="22" fill="#f1f1f1" text-anchor="middle">${safeLabel}</text>
+                    <text x="250" y="374" font-family="monospace" font-size="13" fill="#ff424d" text-anchor="middle" letter-spacing="2">CARIOWNS</text>
+                </svg>`;
+            return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+        }
+
+        document.querySelectorAll('.music-card img.album-art').forEach(img => {
+            img.addEventListener('error', function onErr() {
+                this.removeEventListener('error', onErr);
+                this.src = svgPlaceholder(this.alt || 'Untitled');
+            });
+        });
+
+        // 3. Audio (No Loop)
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         const audioCtx = new AudioCtx();
 
