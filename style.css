@@ -69,10 +69,15 @@ main {
 }
 
 .hero-image {
-    max-width: 100%;
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    aspect-ratio: 16 / 9;
     height: auto;
+    margin: 0 auto 30px;
     border-radius: 8px;
-    margin-bottom: 30px;
+    object-fit: cover;
+    background-color: #1a1a1a; /* fills the box while the placeholder/gif loads */
 }
 
 /* Footer */
