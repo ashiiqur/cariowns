@@ -28,8 +28,8 @@
     const RELEASE = {
         name: "Nostalgic World",
         type: "New Single",
-        releaseDate: "2026-02-11",
-        durationMonths: 3,
+        releaseDate: "2026-05-25",
+        durationMonths: 8,
         durationDays: 0,
         durationHours: 0,
         durationMinutes: 0,
