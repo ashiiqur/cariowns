@@ -1130,3 +1130,118 @@ audio {
   from, to { background-color: transparent; }
   50% { background-color: #ff3333; }
 }
+
+/* =========================================
+   NEW RELEASE POPUP (bottom-right)
+   Content + show/hide timing is controlled by
+   the RELEASE config in the <script> at the
+   bottom of index.html — nothing here needs to
+   change when a new single/album drops.
+   ========================================= */
+.release-popup {
+    display: none; /* JS adds .show once it decides the release is within its 7-day window */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 900;
+    width: calc(100% - 40px);
+    max-width: 340px;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    padding: 14px;
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.release-popup.show {
+    display: block;
+}
+
+.release-popup.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.release-popup-close {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 6px;
+}
+
+.release-popup-close:hover {
+    color: var(--accent-color);
+}
+
+.release-popup-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: inherit;
+    padding-right: 16px; /* keeps text clear of the close button */
+}
+
+.release-popup-art {
+    width: 72px;
+    height: 72px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background-color: #0a0a0a;
+}
+
+.release-popup-details {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0; /* lets long titles ellipsis instead of overflowing */
+}
+
+.release-popup-tag {
+    color: var(--accent-color);
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.release-popup-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.release-popup-date {
+    margin: 0;
+    font-size: 12px;
+    color: #999;
+}
+
+.release-popup-link:hover .release-popup-title {
+    color: var(--accent-color);
+}
+
+@media (max-width: 480px) {
+    .release-popup {
+        right: 12px;
+        left: 12px;
+        bottom: 12px;
+        width: auto;
+        max-width: none;
+    }
+}
