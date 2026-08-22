@@ -7,9 +7,10 @@
 
     // =====================================================================
     // RELEASE CONFIG — edit these values for each new drop.
-    // Swap in the new name/type/date/image/link and the popup will
-    // automatically appear again for a fresh run, even if someone
-    // already closed the popup for the previous release.
+    // Swap in the new name/type/date/image/link and it takes effect
+    // immediately. The popup shows on every page load/refresh while
+    // today's date is inside the window below — closing it only hides
+    // it for that page view, nothing is remembered.
     //
     //   name           : track/album title
     //   type           : small red label, e.g. "New Single" / "New Album"
@@ -28,8 +29,8 @@
     const RELEASE = {
         name: "Nostalgic World",
         type: "New Single",
-        releaseDate: "2026-05-25",
-        durationMonths: 8,
+        releaseDate: "2026-03-25",
+        durationMonths: 3,
         durationDays: 0,
         durationHours: 0,
         durationMinutes: 0,
@@ -59,15 +60,6 @@
         return;
     }
 
-    // If this exact release was already dismissed by this visitor, stay hidden.
-    // A different name/date makes this a new ID, so a new release always
-    // gets its own fresh chance to show, regardless of past dismissals.
-    const releaseId = RELEASE.name + '|' + RELEASE.releaseDate;
-    const DISMISS_KEY = 'release-popup-dismissed';
-    try {
-        if (localStorage.getItem(DISMISS_KEY) === releaseId) return;
-    } catch (e) { /* localStorage unavailable — just show it */ }
-
     // Small inline placeholder so a missing cover image never leaves a broken icon.
     function artPlaceholder() {
         const svg = `
@@ -96,9 +88,10 @@
         requestAnimationFrame(() => popup.classList.add('visible'));
     }, 600);
 
-    // Close button: dismiss just this release, remember it, fade out.
+    // Close button: hides it for this page view only — nothing is remembered,
+    // so refreshing (or visiting again) brings it back as long as it's still
+    // inside the release window above.
     popup.querySelector('.release-popup-close').addEventListener('click', () => {
-        try { localStorage.setItem(DISMISS_KEY, releaseId); } catch (e) { /* ignore */ }
         popup.classList.remove('visible');
         setTimeout(() => popup.classList.remove('show'), 400);
     });
