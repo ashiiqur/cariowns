@@ -30,7 +30,7 @@
         name: "Nostalgic World",
         type: "New Single",
         releaseDate: "2026-03-25",
-        durationMonths: 3,
+        durationMonths: 8,
         durationDays: 0,
         durationHours: 0,
         durationMinutes: 0,
