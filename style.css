@@ -1139,7 +1139,7 @@ audio {
    change when a new single/album drops.
    ========================================= */
 .release-popup {
-    display: none; /* JS adds .show once it decides the release is within its 7-day window */
+    display: none; /* JS adds .show once it decides the release is within its 3-month window */
     position: fixed;
     bottom: 20px;
     right: 20px;
