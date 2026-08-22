@@ -35,7 +35,7 @@
         durationHours: 0,
         durationMinutes: 0,
         image: "assets/releases/nostalgic-world.jpg",
-        link: "MUSIC"
+        link: "https://open.spotify.com/track/2kKL4i97t2hQxXDT2SbuKP"
     };
 
     // =====================================================================
